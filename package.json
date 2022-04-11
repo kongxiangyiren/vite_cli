@@ -1,0 +1,24 @@
+{
+  "name": "vite_cli",
+  "version": "1.0.0",
+  "description": "vite_vue 脚手架",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "vc": "./index.js"
+  },
+  "scripts": {
+    "link": "npm link",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "空巷一人",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "child_process": "^1.0.2",
+    "commander": "^9.1.0",
+    "fs-extra": "^10.0.1",
+    "inquirer": "^8.2.2",
+    "ora": "^6.1.0"
+  }
+}
