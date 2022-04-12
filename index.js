@@ -86,7 +86,7 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖',
       name: 'dependencies',
-      choices: ['TypeScript', 'Router', 'pinia']
+      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器']
     },
     {
       name: 'routerMode',
@@ -95,6 +95,15 @@ async function init(title) {
       default: '',
       when: answers => {
         return answers.dependencies.includes('Router');
+      }
+    },
+    {
+      name: 'css',
+      type: 'list',
+      message: '选择css预处理器',
+      choices: ['Sass/SCSS', 'Less'],
+      when: answers => {
+        return answers.dependencies.includes('CSS 预处理器');
       }
     }
   ];
@@ -168,8 +177,17 @@ async function init(title) {
       }`,
       templatePath.pinia
     );
-
   }
+  // 安装 CSS 预处理器
+  if (message.dependencies.indexOf('CSS 预处理器') > -1) {
+    if (message.css === 'Sass/SCSS') {
+      await exe(`cd ${message.title} && npm install node-sass sass-loader sass -D`);
+    } else if (message.css === 'Less') {
+      await exe(`cd ${message.title} && npm i less less-loader -D`);
+    }
+  }
+
+  // 全局修改
   if (message.dependencies != '' && message.dependencies != ['TypeScript']) {
     //写入app.vue
     templatePath.appVue = templatePath.appVue.replace(
