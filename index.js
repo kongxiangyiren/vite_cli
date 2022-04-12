@@ -84,7 +84,7 @@ async function init(title) {
   let questions1 = [
     {
       type: 'checkbox',
-      message: '配置项目依赖',
+      message: '配置项目依赖 (开启gzip需要后台支持)',
       name: 'dependencies',
       choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器', 'gzip'],
       default: ['TypeScript', 'Router'],
