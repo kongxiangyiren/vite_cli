@@ -86,8 +86,15 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖 (开启gzip需要后台支持)',
       name: 'dependencies',
-      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器', 'gzip'],
-      default: ['TypeScript', 'Router'],
+      choices: [
+        'TypeScript',
+        'Router',
+        'pinia',
+        'CSS 预处理器',
+        'axios',
+        'gzip'
+      ],
+      default: ['TypeScript', 'Router']
     },
     {
       name: 'routerMode',
@@ -191,6 +198,11 @@ async function init(title) {
       await exe(`cd ${message.title} && npm i less less-loader -D`);
     }
   }
+  // 安装 axios
+  if (message.dependencies.indexOf('axios') > -1) {
+    await exe(`cd ${message.title} && npm i axios`);
+  }
+  // 使用 gizp
   if (message.dependencies.indexOf('gzip') > -1) {
     await exe(`cd ${message.title} && npm i vite-plugin-compression -D`);
     viteConfigImport +=
@@ -234,11 +246,14 @@ async function init(title) {
     templatePath.viteConfig = templatePath.viteConfig
       .replace('<!-- viteConfigImport -->', viteConfigImport)
       .replace('<!-- viteConfigPlugin -->', viteConfigPlugin);
-    await cp( `${
-      message.dependencies.indexOf('TypeScript') > -1
-        ? message.title + '/vite.config.ts'
-        : message.title + '/vite.config.js'
-    }`, templatePath.viteConfig);
+    await cp(
+      `${
+        message.dependencies.indexOf('TypeScript') > -1
+          ? message.title + '/vite.config.ts'
+          : message.title + '/vite.config.js'
+      }`,
+      templatePath.viteConfig
+    );
   }
 
   spinner.stop();
