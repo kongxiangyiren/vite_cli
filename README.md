@@ -9,7 +9,7 @@ npm install
 ### 开发环境
 
 ```
-node ./index.js
+node ./index.js create <app-name>
 ```
 
 ### 映射全局

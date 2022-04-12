@@ -86,7 +86,7 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖',
       name: 'dependencies',
-      choices: ['Router', 'TypeScript']
+      choices: ['TypeScript', 'Router', 'pinia']
     },
     {
       name: 'routerMode',
@@ -125,8 +125,8 @@ async function init(title) {
     // app.vue
     appvue += `<router-view></router-view>`;
     // main.js
-    mainImport += `import Router from 'vue-router';`;
-    mainUse += `app.use(Router);`;
+    mainImport += `import router from './router';\n`;
+    mainUse += `app.use(router);\n`;
     // router.js
     let createWebHistory = '';
     let routerTs =
@@ -153,7 +153,23 @@ async function init(title) {
     );
   }
 
-  console.log(message.dependencies);
+  // 安装 pinia
+  if (message.dependencies.indexOf('pinia') > -1) {
+    // npm i pinia@next
+    await exe(`cd ${message.title} && npm i pinia@next`);
+    //  main.js
+    mainImport += `import { createPinia } from 'pinia';\n`;
+    mainUse += `app.use(createPinia());\n`;
+    await cp(
+      `${
+        message.dependencies.indexOf('TypeScript') > -1
+          ? message.title + '/src/store/index.ts'
+          : message.title + '/src/store/index.js'
+      }`,
+      templatePath.pinia
+    );
+
+  }
   if (message.dependencies != '' && message.dependencies != ['TypeScript']) {
     //写入app.vue
     templatePath.appVue = templatePath.appVue.replace(
@@ -178,11 +194,12 @@ async function init(title) {
   spinner.stop();
   console.log('项目初始化成功');
   console.log(
-    `
+    chalk.blue(
+      `
       cd ${message.title}
-      npm i
       npm run dev
       `
+    )
   );
 }
 

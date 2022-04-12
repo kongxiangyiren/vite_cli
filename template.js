@@ -8,13 +8,14 @@ export default {
 
 <style>
 </style>`,
-  main: `import { createApp } from 'vue';
-   import App from './App.vue';
-   <!-- mainImport -->
+  main: 
+  `import { createApp } from 'vue';
+  import App from './App.vue';
+  <!-- mainImport -->
    
-   const app = createApp(App);
-   <!-- mainUse -->
-   app.mount('#app');
+  const app = createApp(App);
+  <!-- mainUse -->
+  app.mount('#app');
 `,
   router: ` import {createRouter,<!-- createWebHistory -->} from 'vue-router'
    // import Home from './views/Home.vue'
@@ -37,5 +38,15 @@ export default {
     })
 
     export default router
+    `,
+    pinia:`import { defineStore } from 'pinia';
+
+    export const useMainStore = defineStore('main', {
+      state: () => {
+        return {};
+      },
+      getters: {},
+      actions: {}
+    });
     `
 };
