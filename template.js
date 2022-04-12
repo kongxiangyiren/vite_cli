@@ -17,7 +17,7 @@ export default {
   <!-- mainUse -->
   app.mount('#app');
 `,
-  router: ` import {createRouter,<!-- createWebHistory -->} from 'vue-router'
+  router: ` import {createRouter,<!-- createWebHistory --><!-- RouteRecordRaw -->} from 'vue-router'
    // import Home from './views/Home.vue'
     const routes<!-- routerTs --> = [
       // {

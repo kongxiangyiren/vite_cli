@@ -148,8 +148,10 @@ async function init(title) {
     mainUse += `app.use(router);\n`;
     // router.js
     let createWebHistory = '';
+    let RouteRecordRaw= message.dependencies.indexOf('TypeScript') > -1 ? ', RouteRecordRaw' : '';
     let routerTs =
-      message.dependencies.indexOf('TypeScript') > -1 ? ':any' : '';
+      message.dependencies.indexOf('TypeScript') > -1 ? ': Array<RouteRecordRaw>' : '';
+  
     // 历史模式
     if (message.routerMode) {
       createWebHistory = `createWebHistory`;
@@ -160,6 +162,7 @@ async function init(title) {
     let reg = new RegExp('<!-- createWebHistory -->', 'g');
     templatePath.router = templatePath.router
       .replace(reg, createWebHistory)
+      .replace('<!-- RouteRecordRaw -->', RouteRecordRaw)
       .replace('<!-- routerTs -->', routerTs);
     // 写入router.js
     await cp(
