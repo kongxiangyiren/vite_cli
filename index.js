@@ -14,7 +14,9 @@ program
   .action(async res => {
     let reg = /^[A-Za-z][0-9a-zA-Z_-]{0,}$/;
     if (!reg.test(res)) {
-     return console.log(chalk.red('项目名称由数字、字母、下划线、-组成,且第一位必须是字母!')); 
+      return console.log(
+        chalk.red('项目名称由数字、字母、下划线、-组成,且第一位必须是字母!')
+      );
     }
     fs.pathExists(res, (err, exists) => {
       if (err) {
@@ -30,18 +32,16 @@ program
         ];
         choose(questions2).then(answers => {
           if (answers.created) {
-            fs.remove(res, (err) => {
+            fs.remove(res, err => {
               if (err) return console.error(err);
-             init(res);
-            })
+              init(res);
+            });
           }
         });
-      }else{
+      } else {
         init(res);
       }
     });
-
-   
   });
 
 const spinner = ora(chalk.green('正在生成项目'));
@@ -65,7 +65,7 @@ let exe = command => {
 /**
  * @description:
  * @param {string} project - 项目文件路径
- * @param {*} template - 模板内容
+ * @param {string} template - 模板内容
  * @return {Promise}
  */
 let cp = (project, template) => {
@@ -113,20 +113,58 @@ async function init(title) {
     }`
   );
 
+  await exe(`cd ${message.title} && npm i`);
+
+  let appvue = '';
+  let mainImport = '';
+  let mainUse = '';
   // 安装 router
   if (message.dependencies.indexOf('Router') > -1) {
     // npm i vue-router
-    await exe(`cd ${message.title} && npm i && npm install vue-router@4`);
-    //修改app.vue
-    templatePath.appVue = templatePath.appVue.replace(
-      '{{router}}',
-      ' <router-view />'
+    await exe(`cd ${message.title} && npm install vue-router@4`);
+    // app.vue
+    appvue += `<router-view></router-view>`;
+    // main.js
+    mainImport += `import Router from 'vue-router';`;
+    mainUse += `app.use(Router);`;
+    // router.js
+    let createWebHistory = '';
+    let routerTs =
+      message.dependencies.indexOf('TypeScript') > -1 ? ':any' : '';
+    // 历史模式
+    if (message.routerMode) {
+      createWebHistory = `createWebHistory`;
+    } else {
+      // hash模式
+      createWebHistory = `createWebHashHistory`;
+    }
+    let reg = new RegExp('<!-- createWebHistory -->', 'g');
+    templatePath.router = templatePath.router
+      .replace(reg, createWebHistory)
+      .replace('<!-- routerTs -->', routerTs);
+    // 写入router.js
+    await cp(
+      `${
+        message.dependencies.indexOf('TypeScript') > -1
+          ? message.title + '/src/router.ts'
+          : message.title + '/src/router.js'
+      }`,
+      templatePath.router
     );
-    await cp(`${message.title}/src/App.vue`, templatePath.appVue);
-    //修改main.js
+  }
+
+  console.log(message.dependencies);
+  if (message.dependencies != '' && message.dependencies != ['TypeScript']) {
+    //写入app.vue
+    templatePath.appVue = templatePath.appVue.replace(
+      '<!-- appVue -->',
+      appvue
+    );
+    await cp(`${message.title}/src/app.vue`, templatePath.appVue);
+    //写入main.js
     templatePath.main = templatePath.main
-      .replace('{{routerImport}}', "import router from './router';")
-      .replace('{{routerUse}}', 'app.use(router);');
+      .replace('<!-- mainImport -->', mainImport)
+      .replace('<!-- mainUse -->', mainUse);
     await cp(
       `${
         message.dependencies.indexOf('TypeScript') > -1
@@ -135,46 +173,6 @@ async function init(title) {
       }`,
       templatePath.main
     );
-    if (message.dependencies.indexOf('TypeScript') > -1) {
-      templatePath.router = templatePath.router.replace('{{routerTs}}', ':any');
-    } else {
-      templatePath.router = templatePath.router.replace('{{routerTs}}', '');
-    }
-    //修改router.js
-    if (message.routerMode) {
-      let reg = new RegExp('{{createWebHistory}}', 'g');
-      templatePath.router = templatePath.router.replace(
-        reg,
-        'createWebHistory'
-      );
-      await cp(
-        `${
-          message.dependencies.indexOf('TypeScript') > -1
-            ? message.title + '/src/router.ts'
-            : message.title + '/src/router.js'
-        }`,
-        templatePath.router
-      );
-    } else {
-      let reg = new RegExp('{{createWebHistory}}', 'g');
-      templatePath.router = templatePath.router.replace(
-        reg,
-        'createWebHashHistory'
-      );
-      await cp(
-        `${
-          message.dependencies.indexOf('TypeScript') > -1
-            ? message.title + '/src/router.ts'
-            : message.title + '/src/router.js'
-        }`,
-        templatePath.router
-      );
-    }
-  } else {
-    templatePath.appVue = templatePath.appVue.replace('{{router}}', '');
-    templatePath.main = templatePath.main
-      .replace('{{routerImport}}', '')
-      .replace('{{routerUse}}', '');
   }
 
   spinner.stop();

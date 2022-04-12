@@ -1,26 +1,24 @@
 export default {
-  appVue: `
-  <template>
-  {{router}}
-  </template>
+  appVue: `<template>
+ <!-- appVue -->
+</template>
 
 <script setup>
 </script>
 
 <style>
-</style>
-   `,
-   main: `import { createApp } from 'vue';
+</style>`,
+  main: `import { createApp } from 'vue';
    import App from './App.vue';
-   {{routerImport}}
+   <!-- mainImport -->
    
    const app = createApp(App);
-   {{routerUse}}
+   <!-- mainUse -->
    app.mount('#app');
-`, 
-    router: ` import {createRouter,{{createWebHistory}}} from 'vue-router'
+`,
+  router: ` import {createRouter,<!-- createWebHistory -->} from 'vue-router'
    // import Home from './views/Home.vue'
-    const routes{{routerTs}} = [
+    const routes<!-- routerTs --> = [
       // {
       //   path: '/',
       //   name: 'home',
@@ -34,10 +32,10 @@ export default {
     ]
 
     const router = createRouter({
-      history: {{createWebHistory}}(import.meta.env.BASE_URL),
+      history: <!-- createWebHistory -->(import.meta.env.BASE_URL),
       routes
     })
 
     export default router
-    `  
+    `
 };
