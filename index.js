@@ -6,7 +6,7 @@ import ora from 'ora';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import templatePath from './template.js';
-program.version('1.0.3');
+program.version('1.0.5');
 
 program
   .command('create <app-name>')
