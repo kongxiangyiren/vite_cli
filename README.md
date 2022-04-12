@@ -1,5 +1,11 @@
 # vue3 vite 脚手架
 
+## 安装
+
+```csharp
+npm i @feiyuhao/vite_cli -g
+```
+
 ## 项目设置
 
 ```
@@ -21,7 +27,7 @@ npm run link
 ### 卸载全局
 
 ```
-npm uni vite_cli -g
+npm uni @feiyuhao/vite_cli -g
 ```
 
 ### 使用

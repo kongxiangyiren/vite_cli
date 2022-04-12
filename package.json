@@ -1,6 +1,6 @@
 {
-  "name": "vite_cli",
-  "version": "1.0.2",
+  "name": "@feiyuhao/vite_cli",
+  "version": "1.0.3",
   "description": "vite_vue 脚手架",
   "main": "index.js",
   "type": "module",
@@ -20,5 +20,9 @@
     "fs-extra": "^10.0.1",
     "inquirer": "^8.2.2",
     "ora": "^6.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://gitee.com/fei-yuhao/vite_cli.git"
   }
 }
