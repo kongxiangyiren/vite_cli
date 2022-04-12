@@ -23,6 +23,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/fei-yuhao/vite_cli.git"
+    "url": "git+https://gitee.com/fei-yuhao/vite_cli.git"
   }
 }
