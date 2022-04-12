@@ -48,5 +48,16 @@ export default {
       getters: {},
       actions: {}
     });
+    `,
+    viteConfig:`import { defineConfig } from 'vite'
+    <!-- viteConfigImport -->
+    import vue from '@vitejs/plugin-vue'
+    
+    // https://vitejs.dev/config/
+    export default defineConfig({
+      plugins: [vue(),
+        <!-- viteConfigPlugin -->
+      ]
+    })
     `
 };

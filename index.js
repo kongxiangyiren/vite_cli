@@ -86,7 +86,8 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖',
       name: 'dependencies',
-      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器']
+      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器', 'gzip'],
+      default: ['TypeScript', 'Router'],
     },
     {
       name: 'routerMode',
@@ -127,6 +128,8 @@ async function init(title) {
   let appvue = '';
   let mainImport = '';
   let mainUse = '';
+  let viteConfigImport = '';
+  let viteConfigPlugin = '';
   // 安装 router
   if (message.dependencies.indexOf('Router') > -1) {
     // npm i vue-router
@@ -181,10 +184,30 @@ async function init(title) {
   // 安装 CSS 预处理器
   if (message.dependencies.indexOf('CSS 预处理器') > -1) {
     if (message.css === 'Sass/SCSS') {
-      await exe(`cd ${message.title} && npm install node-sass sass-loader sass -D`);
+      await exe(
+        `cd ${message.title} && npm install node-sass sass-loader sass -D`
+      );
     } else if (message.css === 'Less') {
       await exe(`cd ${message.title} && npm i less less-loader -D`);
     }
+  }
+  if (message.dependencies.indexOf('gzip') > -1) {
+    await exe(`cd ${message.title} && npm i vite-plugin-compression -D`);
+    viteConfigImport +=
+      "import viteCompression from 'vite-plugin-compression';\n";
+    viteConfigPlugin += ` viteCompression({
+      disable:false, // 是否禁用
+      verbose:true, // 是否在控制台输出压缩结果
+      filter: /\\.(js|css)$/i, // 压缩文件的过滤规则
+      threshold: 10240, // 文件大小阈值，以字节为单位
+      algorithm: 'gzip', // 压缩算法,可选 [ 'gzip' , 'brotliCompress' ,'deflate' , 'deflateRaw']
+      ext: '.gz', // 	生成的压缩包后缀
+      compressionOptions: { // 压缩选项
+        level: 9, // 压缩等级，范围0-9,越小压缩效果越差，但是越大处理越慢，所以一般取中间值;
+      },
+      deleteOriginFile: true, // 是否删除原始文件
+      
+    })`;
   }
 
   // 全局修改
@@ -207,6 +230,15 @@ async function init(title) {
       }`,
       templatePath.main
     );
+    // 写入vite.config.js
+    templatePath.viteConfig = templatePath.viteConfig
+      .replace('<!-- viteConfigImport -->', viteConfigImport)
+      .replace('<!-- viteConfigPlugin -->', viteConfigPlugin);
+    await cp( `${
+      message.dependencies.indexOf('TypeScript') > -1
+        ? message.title + '/vite.config.ts'
+        : message.title + '/vite.config.js'
+    }`, templatePath.viteConfig);
   }
 
   spinner.stop();
