@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   appVue: `<template>
  <!-- appVue -->
 </template>
@@ -8,8 +8,7 @@ export default {
 
 <style>
 </style>`,
-  main: 
-  `import { createApp } from 'vue';
+  main: `import { createApp } from 'vue';
   import App from './App.vue';
   <!-- mainImport -->
    
@@ -39,7 +38,7 @@ export default {
 
     export default router
     `,
-    pinia:`import { defineStore } from 'pinia';
+  pinia: `import { defineStore } from 'pinia';
 
     export const useMainStore = defineStore('main', {
       state: () => {
@@ -49,7 +48,7 @@ export default {
       actions: {}
     });
     `,
-    viteConfig:`import { defineConfig } from 'vite'
+  viteConfig: `import { defineConfig } from 'vite'
     <!-- viteConfigImport -->
     import vue from '@vitejs/plugin-vue'
     

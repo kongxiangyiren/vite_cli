@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-import { program } from 'commander';
-import inquirer from 'inquirer';
-import { exec } from 'child_process';
-import ora from 'ora';
-import chalk from 'chalk';
-import fs from 'fs-extra';
-import templatePath from './template.js';
-program.version('1.0.5');
+const { program } = require('commander');
+const inquirer = require('inquirer');
+const { exec } = require('child_process');
+const ora = require('ora');
+const chalk = require('chalk');
+const fs = require('fs-extra');
+const templatePath = require('./template.js');
+const { version } = require('./package');
+program.version(version);
 
 program
   .command('create <app-name>')
@@ -43,7 +44,6 @@ program
       }
     });
   });
-
 const spinner = ora(chalk.green('正在生成项目'));
 
 let choose = message => {
@@ -55,8 +55,10 @@ let exe = command => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
         reject(error);
+        spinner.stop();
       } else {
         resolve(stdout);
+       
       }
     });
   });
@@ -148,10 +150,13 @@ async function init(title) {
     mainUse += `app.use(router);\n`;
     // router.js
     let createWebHistory = '';
-    let RouteRecordRaw= message.dependencies.indexOf('TypeScript') > -1 ? ', RouteRecordRaw' : '';
+    let RouteRecordRaw =
+      message.dependencies.indexOf('TypeScript') > -1 ? ', RouteRecordRaw' : '';
     let routerTs =
-      message.dependencies.indexOf('TypeScript') > -1 ? ': Array<RouteRecordRaw>' : '';
-  
+      message.dependencies.indexOf('TypeScript') > -1
+        ? ': Array<RouteRecordRaw>'
+        : '';
+
     // 历史模式
     if (message.routerMode) {
       createWebHistory = `createWebHistory`;
