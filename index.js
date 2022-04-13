@@ -21,7 +21,10 @@ program
     }
     fs.pathExists(res, (err, exists) => {
       if (err) {
-        console.log(err);
+        return console.error(
+          '\033[41;37m ERROR \033[0m',
+          chalk.red(err)
+        );
       }
       if (exists) {
         let questions2 = [
@@ -34,7 +37,12 @@ program
         choose(questions2).then(answers => {
           if (answers.created) {
             fs.remove(res, err => {
-              if (err) return console.error(err);
+              if (err) {
+                return console.error(
+                  '\033[41;37m ERROR \033[0m',
+                  chalk.red(err)
+                );
+              }
               init(res);
             });
           }
@@ -58,7 +66,6 @@ let exe = command => {
         spinner.stop();
       } else {
         resolve(stdout);
-       
       }
     });
   });
