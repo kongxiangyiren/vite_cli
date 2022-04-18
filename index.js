@@ -6,6 +6,7 @@ const ora = require('ora');
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const templatePath = require('./template.js');
+const { getVersion } = require('./version.js');
 const { version } = require('./package');
 program.version(version);
 
@@ -21,10 +22,7 @@ program
     }
     fs.pathExists(res, (err, exists) => {
       if (err) {
-        return console.error(
-          '\033[41;37m ERROR \033[0m',
-          chalk.red(err)
-        );
+        return console.error('\033[41;37m ERROR \033[0m', chalk.red(err));
       }
       if (exists) {
         let questions2 = [
@@ -281,6 +279,15 @@ async function init(title) {
       `
     )
   );
+
+  let { data: res } = await getVersion();
+  if (version !== res.version) {
+    console.log(
+      chalk.yellow(
+        `最新版本:${res.version},请运行 npm update -g @feiyuhao/vite-cli 更新`
+      )
+    );
+  }
 }
 
 const args = program.parse(process.argv);

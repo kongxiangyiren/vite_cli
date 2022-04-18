@@ -1,7 +1,7 @@
 {
   "name": "@feiyuhao/vite_cli",
-  "version": "2.0.2",
-  "description": "vite_vue 脚手架",
+  "version": "2.0.3",
+  "description": "vue3 vite 脚手架",
   "main": "index.js",
   "bin": {
     "vc": "./index.js"
@@ -13,6 +13,7 @@
   "author": "空巷一人",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
     "commander": "^9.1.0",
