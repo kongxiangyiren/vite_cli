@@ -103,7 +103,11 @@ async function init(title) {
       ],
       default: ['TypeScript', 'Router']
     },
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 39b7d04ddba5b7858046c53a44d3389a2b997b0c
     {
       name: 'routerMode',
       type: 'confirm',
@@ -127,7 +131,11 @@ async function init(title) {
       type: 'list',
       message: 'npm 或 yarn',
       choices: ['npm', 'yarn']
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> 39b7d04ddba5b7858046c53a44d3389a2b997b0c
   ];
 
   let message = await choose(questions1);
