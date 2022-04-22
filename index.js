@@ -91,7 +91,7 @@ async function init(title) {
   let questions1 = [
     {
       type: 'checkbox',
-      message: '配置项目依赖 (开启gzip需要后台支持)',
+      message: '配置项目依赖',
       name: 'dependencies',
       choices: [
         'TypeScript',
@@ -103,6 +103,7 @@ async function init(title) {
       ],
       default: ['TypeScript', 'Router']
     },
+
     {
       name: 'routerMode',
       type: 'confirm',
@@ -120,6 +121,12 @@ async function init(title) {
       when: answers => {
         return answers.dependencies.includes('CSS 预处理器');
       }
+    },
+    {
+      name: 'npmOrYarn',
+      type: 'list',
+      message: 'npm 或 yarn',
+      choices: ['npm', 'yarn']
     }
   ];
 
@@ -128,7 +135,7 @@ async function init(title) {
   spinner.start();
   let npm = await exe(`npm -v`);
 
-  // 拉取项目模板
+  //拉取项目模板
   await exe(
     `npm init vite@latest ${message.title} ${
       Number(npm.split('.')[0]) < 7 ? '' : '--'
@@ -137,7 +144,11 @@ async function init(title) {
     }`
   );
 
-  await exe(`cd ${message.title} && npm i`);
+  await exe(
+    `cd ${message.title} && ${
+      message.npmOrYarn === 'yarn' ? 'yarn' : 'npm'
+    } install`
+  );
 
   let appvue = '';
   let mainImport = '';
@@ -146,8 +157,13 @@ async function init(title) {
   let viteConfigPlugin = '';
   // 安装 router
   if (message.dependencies.indexOf('Router') > -1) {
-    // npm i vue-router
-    await exe(`cd ${message.title} && npm install vue-router@4`);
+    await exe(
+      `cd ${message.title} && ${
+        message.npmOrYarn === 'yarn'
+          ? 'yarn add vue-router@4'
+          : 'npm install vue-router@4'
+      }`
+    );
     // app.vue
     appvue += `<router-view></router-view>`;
     // main.js
@@ -187,8 +203,13 @@ async function init(title) {
 
   // 安装 pinia
   if (message.dependencies.indexOf('pinia') > -1) {
-    // npm i pinia@next
-    await exe(`cd ${message.title} && npm i pinia@next`);
+    await exe(
+      `cd ${message.title} && ${
+        message.npmOrYarn === 'yarn'
+          ? 'yarn add pinia@next'
+          : 'npm i pinia@next'
+      }`
+    );
     //  main.js
     mainImport += `import { createPinia } from 'pinia';\n`;
     mainUse += `app.use(createPinia());\n`;
@@ -205,19 +226,39 @@ async function init(title) {
   if (message.dependencies.indexOf('CSS 预处理器') > -1) {
     if (message.css === 'Sass/SCSS') {
       await exe(
-        `cd ${message.title} && npm install node-sass sass-loader sass -D`
+        `cd ${message.title} && ${
+          message.npmOrYarn === 'yarn'
+            ? 'yarn add node-sass sass-loader sass -D'
+            : 'npm install node-sass sass-loader sass -D'
+        }`
       );
     } else if (message.css === 'Less') {
-      await exe(`cd ${message.title} && npm i less less-loader -D`);
+      await exe(
+        `cd ${message.title} && ${
+          message.npmOrYarn === 'yarn'
+            ? 'yarn add less less-loader -D'
+            : 'npm i less less-loader -D'
+        }`
+      );
     }
   }
   // 安装 axios
   if (message.dependencies.indexOf('axios') > -1) {
-    await exe(`cd ${message.title} && npm i axios`);
+    await exe(
+      `cd ${message.title} && ${
+        message.npmOrYarn === 'yarn' ? 'yarn add axios' : 'npm i axios'
+      }`
+    );
   }
   // 使用 gizp
   if (message.dependencies.indexOf('gzip') > -1) {
-    await exe(`cd ${message.title} && npm i vite-plugin-compression -D`);
+    await exe(
+      `cd ${message.title} && ${
+        message.npmOrYarn === 'yarn'
+          ? 'yarn add vite-plugin-compression -D'
+          : 'npm i vite-plugin-compression -D'
+      } `
+    );
     viteConfigImport +=
       "import viteCompression from 'vite-plugin-compression';\n";
     viteConfigPlugin += ` viteCompression({
@@ -275,7 +316,7 @@ async function init(title) {
     chalk.blue(
       `
       cd ${message.title}
-      npm run dev
+      ${message.npmOrYarn === 'yarn' ? 'yarn' : 'npm run'} dev
       `
     )
   );
