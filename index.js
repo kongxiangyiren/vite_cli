@@ -227,8 +227,8 @@ async function init(title) {
       await exe(
         `cd ${message.title} && ${
           message.npmOrYarn === 'yarn'
-            ? 'yarn add node-sass sass-loader sass -D'
-            : 'npm install node-sass sass-loader sass -D'
+            ? 'yarn add sass -D'
+            : 'npm install sass -D'
         }`
       );
     } else if (message.css === 'Less') {
