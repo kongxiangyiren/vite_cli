@@ -324,7 +324,7 @@ async function init(title) {
   if (version !== res.version) {
     console.log(
       chalk.yellow(
-        `最新版本:${res.version},请运行 npm i @feiyuhao/vite_cli -g 更新`
+        `最新版本:${res.version},当前版本:${version},请运行 npm i @feiyuhao/vite_cli -g 更新`
       )
     );
   }
