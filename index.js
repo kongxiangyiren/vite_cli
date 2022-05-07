@@ -17,7 +17,7 @@ program
     let reg = /^[A-Za-z][0-9a-zA-Z_-]{0,}$/;
     if (!reg.test(res)) {
       return console.log(
-        chalk.red('项目名称由数字、字母、下划线、-组成,且第一位必须是字母!')
+        chalk.red('项目名称可选数字、字母、下划线、-,第一位必须是字母!')
       );
     }
     fs.pathExists(res, (err, exists) => {
