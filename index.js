@@ -122,10 +122,10 @@ async function init(title) {
       }
     },
     {
-      name: 'npmOrYarn',
+      name: 'tool',
       type: 'list',
-      message: 'npm 或 yarn',
-      choices: ['npm', 'yarn']
+      message: '请选择包管理工具',
+      choices: ['npm', 'yarn', 'pnpm']
     }
   ];
 
@@ -143,11 +143,7 @@ async function init(title) {
     }`
   );
 
-  await exe(
-    `cd ${message.title} && ${
-      message.npmOrYarn === 'yarn' ? 'yarn' : 'npm'
-    } install`
-  );
+  await exe(`cd ${message.title} && ${message.tool} install`);
 
   let appvue = '';
   let mainImport = '';
@@ -158,9 +154,9 @@ async function init(title) {
   if (message.dependencies.indexOf('Router') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.npmOrYarn === 'yarn'
-          ? 'yarn add vue-router@4'
-          : 'npm install vue-router@4'
+        message.tool === 'npm'
+          ? 'npm install vue-router@4'
+          : message.tool + ' add vue-router@4'
       }`
     );
     // app.vue
@@ -204,9 +200,9 @@ async function init(title) {
   if (message.dependencies.indexOf('pinia') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.npmOrYarn === 'yarn'
-          ? 'yarn add pinia@next'
-          : 'npm i pinia@next'
+        message.tool === 'npm'
+          ? 'npm i pinia@next'
+          : message.tool + ' add pinia@next'
       }`
     );
     //  main.js
@@ -226,17 +222,17 @@ async function init(title) {
     if (message.css === 'Sass/SCSS') {
       await exe(
         `cd ${message.title} && ${
-          message.npmOrYarn === 'yarn'
-            ? 'yarn add sass -D'
-            : 'npm install sass -D'
+          message.tool === 'npm'
+            ? 'npm install sass -D'
+            : message.tool + ' add sass -D'
         }`
       );
     } else if (message.css === 'Less') {
       await exe(
         `cd ${message.title} && ${
-          message.npmOrYarn === 'yarn'
-            ? 'yarn add less less-loader -D'
-            : 'npm i less less-loader -D'
+          message.tool === 'npm'
+            ? 'npm i less less-loader -D'
+            : message.tool + ' add less less-loader -D'
         }`
       );
     }
@@ -245,7 +241,7 @@ async function init(title) {
   if (message.dependencies.indexOf('axios') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.npmOrYarn === 'yarn' ? 'yarn add axios' : 'npm i axios'
+        message.tool === 'npm' ? 'npm i axios' : message.tool + ' add axios'
       }`
     );
   }
@@ -253,9 +249,9 @@ async function init(title) {
   if (message.dependencies.indexOf('gzip') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.npmOrYarn === 'yarn'
-          ? 'yarn add vite-plugin-compression -D'
-          : 'npm i vite-plugin-compression -D'
+        message.tool === 'npm'
+          ? 'npm i vite-plugin-compression -D'
+          : message.tool + ' add vite-plugin-compression -D'
       } `
     );
     viteConfigImport +=
@@ -315,7 +311,7 @@ async function init(title) {
     chalk.blue(
       `
       cd ${message.title}
-      ${message.npmOrYarn === 'yarn' ? 'yarn' : 'npm run'} dev
+      ${message.tool === 'yarn' ? 'yarn' : message.tool + ' run'} dev
       `
     )
   );
