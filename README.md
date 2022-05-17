@@ -36,7 +36,28 @@ npm uni @feiyuhao/vite_cli -g
 |-|-|
 |查看版本号|vc -V|
 |查看信息|vc -h|
-|创建项目|vc create <app-name>|
+|创建项目|vc create 项目名称|
+|添加自动化部署配置|vc deploy|
+
+## 关于自动化部署
+
+运行`vc deploy`会生成deploy文件夹
+
+请自行修改配置信息
+
+多服务器部署可复制deploy下文件,并修改`package.json`的scripts配置
+
+### package.json下scripts配置
+
+```json
+ "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "ssh": "vite build && node ./deploy/ssh.js",
+    "ftp": "vite build && node ./deploy/ftp.js"
+  },
+```
 
 ## 仓库卡片
 
