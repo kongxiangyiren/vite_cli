@@ -51,7 +51,12 @@ async function deploy() {
 
     await cp('./package.json', JSON.stringify(pac, null, 2));
 
-
+    let git = await read("./.gitignore")
+    if (git.indexOf("deploy") === -1) {
+        git = "deploy\\n" + git
+        git = git.replace(/\\n/g, "\n")
+        await cp('./.gitignore', git);
+    }
     spinner.stop()
 
     console.log(chalk.white("配置成功,请自行修改配置文件"));

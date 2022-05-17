@@ -41,6 +41,8 @@ npm uni @feiyuhao/vite_cli -g
 
 ## 关于自动化部署
 
+由于自动化部署太危险,默认不提交git,如果要提交git请自行修改 `.gitignore` 文件
+
 运行`vc deploy`会生成deploy文件夹
 
 请自行修改配置信息
