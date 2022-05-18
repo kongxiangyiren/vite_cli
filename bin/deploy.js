@@ -3,6 +3,8 @@ const ora = require('ora');
 const chalk = require('chalk');
 const path = require("path")
 
+const warning = chalk.bold.hex('#FFA500');
+
 const spinner = ora(chalk.green('正在安装配置'));
 async function deploy() {
 
@@ -60,6 +62,7 @@ async function deploy() {
     spinner.stop()
 
     console.log(chalk.white("配置成功,请自行修改配置文件"));
+    console.log(warning("默认修改 .gitignore 不上传deploy文件夹,如需修改请警慎,避免造成账号密码泄露"));
 }
 
 deploy()
