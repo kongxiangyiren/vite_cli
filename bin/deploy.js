@@ -52,8 +52,8 @@ async function deploy() {
     await cp('./package.json', JSON.stringify(pac, null, 2));
 
     let git = await read("./.gitignore")
-    if (git.indexOf("deploy") === -1) {
-        git = "deploy\\n" + git
+    if (git.indexOf("deploy/*") === -1) {
+        git = "deploy/*\\n" + git
         git = git.replace(/\\n/g, "\n")
         await cp('./.gitignore', git);
     }
