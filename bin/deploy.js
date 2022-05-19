@@ -55,7 +55,7 @@ async function deploy() {
 
     let git = await read("./.gitignore")
     if (git.indexOf("deploy/*") === -1) {
-        git = "# 自动化部署\\ndeploy/*\\n" + git
+        git = "# 自动化部署\\ndeploy/*\\n\\n" + git
         git = git.replace(/\\n/g, "\n")
         await cp('./.gitignore', git);
     }
