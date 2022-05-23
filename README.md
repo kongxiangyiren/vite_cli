@@ -68,3 +68,9 @@ npm uni @feiyuhao/vite_cli -g
 ## 下载量
 
 [![downloads](https://img.shields.io/npm/dt/@feiyuhao/vite_cli) ](https://www.npmjs.com/package/@feiyuhao/vite_cli)
+
+## 仓库地址
+
+gitee: <https://gitee.com/fei-yuhao/vite_cli>
+
+github: [https://github.com/feiyuhao/vite_cli](https://github.com/feiyuhao/vite_cli)
