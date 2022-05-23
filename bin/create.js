@@ -268,9 +268,9 @@ async function init(title) {
         await exe(
           `cd ${message.title} && ${
             message.tool === 'npm'
-              ? 'npm i vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D'
+              ? 'npm i @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D'
               : message.tool +
-                ' add vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D'
+                ' add @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D'
           }`
         );
         let eslintrcTS = path.join(
@@ -300,9 +300,9 @@ async function init(title) {
         await exe(
           `cd ${message.title} && ${
             message.tool === 'npm'
-              ? 'npm i vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-config-airbnb-base eslint-plugin-import -D'
+              ? 'npm i @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-config-airbnb-base eslint-plugin-import -D'
               : message.tool +
-                ' add vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-config-airbnb-base eslint-plugin-import -D'
+                ' add @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-config-airbnb-base eslint-plugin-import -D'
           }`
         );
 
@@ -333,9 +333,9 @@ async function init(title) {
         await exe(
           `cd ${message.title} && ${
             message.tool === 'npm'
-              ? 'npm i vite-plugin-eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest eslint-config-standard@latest eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise @typescript-eslint/parser -D'
+              ? 'npm i @types/eslint vite-plugin-eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest eslint-config-standard@latest eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise @typescript-eslint/parser -D'
               : message.tool +
-                ' add vite-plugin-eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest eslint-config-standard@latest eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise @typescript-eslint/parser -D'
+                ' add @types/eslint vite-plugin-eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest eslint-config-standard@latest eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise @typescript-eslint/parser -D'
           }`
         );
 
@@ -365,9 +365,9 @@ async function init(title) {
         await exe(
           `cd ${message.title} && ${
             message.tool === 'npm'
-              ? 'npm i vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
+              ? 'npm i @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
               : message.tool +
-                ' add vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
+                ' add @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
           }`
         );
         let eslintrcpt = path.join(
