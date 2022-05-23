@@ -112,6 +112,25 @@ async function init(title) {
   let message = await choose(questions1);
   message.title = title;
   spinner.start();
+
+  // 验证eslint所需node版本
+  if (message.dependencies.indexOf('ESLint') > -1) {
+    // node 要大于等于13.10.0
+    let node = await exe(`node -v`);
+    if (
+      Number(node.slice(1, node.split('.')[0].length)) < 13 ||
+      (Number(node.slice(1, node.split('.')[0].length)) === 13 &&
+        Number(node.split('.')[1]) < 10)
+    ) {
+      console.log(
+        '\n',
+        error(' ERROR '),
+        chalk.red('安装eslint需要node版本升级到13.10.0及以上')
+      );
+      process.exit(0);
+    }
+  }
+
   let npm = await exe(`npm -v`);
 
   //拉取项目模板
@@ -433,12 +452,11 @@ async function init(title) {
       let pac = JSON.parse(pack);
       pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} --fix';
       await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
-    await exe( `cd ${message.title} && ${
-        message.tool === 'yarn'
-          ? 'yarn lint'
-          : message.tool +
-            ' run lint'
-      }`)
+      await exe(
+        `cd ${message.title} && ${
+          message.tool === 'yarn' ? 'yarn lint' : message.tool + ' run lint'
+        }`
+      );
     }
   }
 
