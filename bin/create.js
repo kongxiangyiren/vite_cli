@@ -410,8 +410,8 @@ async function init(title) {
         copy(`${message.title}/.eslintrc.js`, eslintrcpj);
       }
     }
-    viteConfigImport += "import eslintPlugin from 'vite-plugin-eslint';\n";
-    viteConfigPlugin += ',\n  eslintPlugin()';
+    viteConfigImport += "import eslint from 'vite-plugin-eslint';\n";
+    viteConfigPlugin += ',\n  eslint()';
   }
 
   // 全局修改
