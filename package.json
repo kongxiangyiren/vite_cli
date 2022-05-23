@@ -21,8 +21,12 @@
     "inquirer": "^8.2.2",
     "ora": "^5.4.1"
   },
+  "homepage": "https://github.com/feiyuhao/vite_cli#readme",
+  "bugs": {
+    "url": "https://github.com/feiyuhao/vite_cli/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/fei-yuhao/vite_cli.git"
+    "url": "https://github.com/feiyuhao/vite_cli.git"
   }
 }
