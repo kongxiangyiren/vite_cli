@@ -8,7 +8,8 @@
   },
   "scripts": {
     "link": "npm link",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --config .prettierrc.js --write ./bin/*.js ./lib/**/*.js'"
   },
   "author": "空巷一人",
   "license": "MIT",
@@ -28,5 +29,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/feiyuhao/vite_cli.git"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.2"
   }
 }

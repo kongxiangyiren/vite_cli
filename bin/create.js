@@ -206,7 +206,7 @@ async function init(title) {
     );
     // 创建views文件夹
     fs.mkdirs(message.title + '/src/views');
-  }else{
+  } else {
     appvue += `    <div></div>`;
   }
 
@@ -460,6 +460,19 @@ async function init(title) {
           : message.title + '/vite.config.js'
       }`,
       templatePath.viteConfig
+    );
+
+    // 使用prettier格式化代码
+    await exe(
+      `cd ${path.join(
+        __dirname,
+        '..'
+      )} && npx prettier --config .prettierrc.js --write ${path.join(
+        process.cwd(),
+        message.title
+      )}/vite.config.${
+        message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'
+      } ${path.join(process.cwd(), message.title)}/src/**/*.{js,ts}`
     );
 
     if (message.dependencies.indexOf('ESLint') > -1) {
