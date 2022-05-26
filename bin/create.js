@@ -12,6 +12,14 @@ program.usage('<app-name>');
 
 program.parse(process.argv);
 
+if(program.args[0]===undefined){
+  console.log(
+    error(' ERROR '),
+    chalk.red('请输入项目名称')
+  );
+  process.exit(1)
+}
+
 let reg = /^[A-Za-z][0-9a-zA-Z_-]{0,}$/;
 if (!reg.test(program.args[0])) {
   console.log(
@@ -127,7 +135,7 @@ async function init(title) {
         error(' ERROR '),
         chalk.red('安装eslint需要node版本升级到13.10.0及以上')
       );
-      process.exit(0);
+      process.exit(1);
     }
   }
 
