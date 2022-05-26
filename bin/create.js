@@ -12,12 +12,9 @@ program.usage('<app-name>');
 
 program.parse(process.argv);
 
-if(program.args[0]===undefined){
-  console.log(
-    error(' ERROR '),
-    chalk.red('请输入项目名称')
-  );
-  process.exit(1)
+if (program.args[0] === undefined) {
+  console.log(error(' ERROR '), chalk.red('请输入项目名称'));
+  process.exit(1);
 }
 
 let reg = /^[a-z][0-9a-z_-]{0,}$/;
@@ -202,11 +199,15 @@ async function init(title) {
     await cp(
       `${
         message.dependencies.indexOf('TypeScript') > -1
-          ? message.title + '/src/router.ts'
-          : message.title + '/src/router.js'
+          ? message.title + '/src/router/index.ts'
+          : message.title + '/src/router/index.js'
       }`,
       templatePath.router
     );
+    // 创建views文件夹
+    fs.mkdirs(message.title + '/src/views');
+  }else{
+    appvue += `    <div></div>`;
   }
 
   // 安装 pinia
@@ -388,6 +389,12 @@ async function init(title) {
       }
     }
     if (message.eslint === 'ESLint + Prettier') {
+      let prettierrcJS = path.join(
+        __dirname,
+        '../lib/create/eslint/.prettierrc.js'
+      );
+      copy(`${message.title}/.prettierrc.js`, prettierrcJS);
+
       if (message.dependencies.indexOf('TypeScript') > -1) {
         await exe(
           `cd ${message.title} && ${
