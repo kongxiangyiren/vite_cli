@@ -20,11 +20,11 @@ if(program.args[0]===undefined){
   process.exit(1)
 }
 
-let reg = /^[A-Za-z][0-9a-zA-Z_-]{0,}$/;
+let reg = /^[a-z][0-9a-z_-]{0,}$/;
 if (!reg.test(program.args[0])) {
   console.log(
     error(' ERROR '),
-    chalk.red('项目名称可选数字、字母、下划线、-,第一位必须是字母!')
+    chalk.red('项目名称可选数字、小写字母、下划线、-,第一位必须是小写字母!')
   );
 } else {
   fs.pathExists(program.args[0], (err, exists) => {
