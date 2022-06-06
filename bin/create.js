@@ -395,6 +395,12 @@ async function init(title) {
       );
       copy(`${message.title}/.prettierrc.js`, prettierrcJS);
 
+      let prettieriGnore = path.join(
+        __dirname,
+        '../lib/create/eslint/.prettierignore'
+      );
+      copy(`${message.title}/.prettierignore`, prettieriGnore);
+
       if (message.dependencies.indexOf('TypeScript') > -1) {
         await exe(
           `cd ${message.title} && ${
