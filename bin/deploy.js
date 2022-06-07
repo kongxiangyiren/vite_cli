@@ -1,12 +1,4 @@
-const {
-  choose,
-  exe,
-  tools,
-  copy,
-  read,
-  cp,
-  getVersion
-} = require('../lib/index');
+const { choose, exe, tools, copy, read, cp, getVersion } = require('../lib/index');
 const ora = require('ora');
 const chalk = require('chalk');
 const path = require('path');
@@ -66,9 +58,7 @@ async function deploy() {
 
   console.log(chalk.white('配置成功,请自行修改配置文件'));
   console.log(
-    warning(
-      '默认修改 .gitignore 不上传deploy文件夹,如需修改请警慎,避免造成账号密码泄露'
-    )
+    warning('默认修改 .gitignore 不上传deploy文件夹,如需修改请警慎,避免造成账号密码泄露')
   );
   getVersion();
 }

@@ -9,7 +9,7 @@
   "scripts": {
     "link": "npm link",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --config .prettierrc.js --write ./bin/*.js ./lib/**/*.js'"
+    "prettier": "prettier --config .prettierrc.js --write ./bin/*.js ./lib/**/*.js"
   },
   "author": "空巷一人",
   "license": "MIT",

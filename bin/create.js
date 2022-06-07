@@ -61,15 +61,7 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖',
       name: 'dependencies',
-      choices: [
-        'TypeScript',
-        'Router',
-        'pinia',
-        'CSS 预处理器',
-        'axios',
-        'gzip',
-        'ESLint'
-      ],
+      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器', 'axios', 'gzip', 'ESLint'],
       default: ['TypeScript', 'Router', 'ESLint']
     },
     {
@@ -124,14 +116,9 @@ async function init(title) {
     let node = await exe(`node -v`);
     if (
       Number(node.slice(1, node.split('.')[0].length)) < 13 ||
-      (Number(node.slice(1, node.split('.')[0].length)) === 13 &&
-        Number(node.split('.')[1]) < 10)
+      (Number(node.slice(1, node.split('.')[0].length)) === 13 && Number(node.split('.')[1]) < 10)
     ) {
-      console.log(
-        '\n',
-        error(' ERROR '),
-        chalk.red('安装eslint需要node版本升级到13.10.0及以上')
-      );
+      console.log('\n', error(' ERROR '), chalk.red('安装eslint需要node版本升级到13.10.0及以上'));
       process.exit(1);
     }
   }
@@ -142,9 +129,7 @@ async function init(title) {
   await exe(
     `npm init vite@latest ${message.title} ${
       Number(npm.split('.')[0]) < 7 ? '' : '--'
-    } --template ${
-      message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'
-    }`
+    } --template ${message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'}`
   );
 
   await exe(`cd ${message.title} && ${message.tool} install`);
@@ -154,17 +139,14 @@ async function init(title) {
   let mainUse = '';
   let viteConfigImport = '';
   let viteConfigPlugin = '';
-  let scriptlang =
-    message.dependencies.indexOf('TypeScript') > -1 ? ' lang="ts"' : '';
+  let scriptlang = message.dependencies.indexOf('TypeScript') > -1 ? ' lang="ts"' : '';
   let stylelang = '';
 
   // 安装 router
   if (message.dependencies.indexOf('Router') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.tool === 'npm'
-          ? 'npm install vue-router@4'
-          : message.tool + ' add vue-router@4'
+        message.tool === 'npm' ? 'npm install vue-router@4' : message.tool + ' add vue-router@4'
       }`
     );
     // app.vue
@@ -174,14 +156,8 @@ async function init(title) {
     mainUse += `app.use(router);\n`;
     // router.js
     let createWebHistory = '';
-    let RouteRecordRaw =
-      message.dependencies.indexOf('TypeScript') > -1
-        ? ', RouteRecordRaw '
-        : '';
-    let routerTs =
-      message.dependencies.indexOf('TypeScript') > -1
-        ? ': Array<RouteRecordRaw>'
-        : '';
+    let RouteRecordRaw = message.dependencies.indexOf('TypeScript') > -1 ? ', RouteRecordRaw ' : '';
+    let routerTs = message.dependencies.indexOf('TypeScript') > -1 ? ': Array<RouteRecordRaw>' : '';
 
     // 历史模式
     if (message.routerMode) {
@@ -214,9 +190,7 @@ async function init(title) {
   if (message.dependencies.indexOf('pinia') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.tool === 'npm'
-          ? 'npm i pinia@next'
-          : message.tool + ' add pinia@next'
+        message.tool === 'npm' ? 'npm i pinia@next' : message.tool + ' add pinia@next'
       }`
     );
     //  main.js
@@ -238,9 +212,7 @@ async function init(title) {
     if (message.css === 'Sass/SCSS') {
       await exe(
         `cd ${message.title} && ${
-          message.tool === 'npm'
-            ? 'npm install sass -D'
-            : message.tool + ' add sass -D'
+          message.tool === 'npm' ? 'npm install sass -D' : message.tool + ' add sass -D'
         }`
       );
       stylelang = ' lang="scss"';
@@ -272,8 +244,7 @@ async function init(title) {
           : message.tool + ' add vite-plugin-compression -D'
       } `
     );
-    viteConfigImport +=
-      "import viteCompression from 'vite-plugin-compression';\n";
+    viteConfigImport += "import viteCompression from 'vite-plugin-compression';\n";
     viteConfigPlugin += `,
   viteCompression({
     disable: false, // 是否禁用
@@ -301,24 +272,17 @@ async function init(title) {
                 ' add @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D'
           }`
         );
-        let eslintrcTS = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcTS.js'
-        );
+        let eslintrcTS = path.join(__dirname, '../lib/create/eslint/.eslintrcTS.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcTS);
       } else {
         await exe(
           `cd ${message.title} && ${
             message.tool === 'npm'
               ? 'npm i vite-plugin-eslint eslint eslint-plugin-vue@latest -D'
-              : message.tool +
-                ' add vite-plugin-eslint eslint eslint-plugin-vue@latest -D'
+              : message.tool + ' add vite-plugin-eslint eslint eslint-plugin-vue@latest -D'
           }`
         );
-        let eslintrcJs = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrc.js'
-        );
+        let eslintrcJs = path.join(__dirname, '../lib/create/eslint/.eslintrc.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcJs);
       }
     }
@@ -334,10 +298,7 @@ async function init(title) {
           }`
         );
 
-        let eslintrcAts = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrc-airbnb-ts.js'
-        );
+        let eslintrcAts = path.join(__dirname, '../lib/create/eslint/.eslintrc-airbnb-ts.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcAts);
       } else {
         await exe(
@@ -348,10 +309,7 @@ async function init(title) {
                 ' add vite-plugin-eslint eslint eslint-plugin-vue@latest eslint-config-airbnb-base@latest eslint-plugin-import -D'
           }`
         );
-        let eslintrcaj = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcaj.js'
-        );
+        let eslintrcaj = path.join(__dirname, '../lib/create/eslint/.eslintrcaj.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcaj);
       }
     }
@@ -367,10 +325,7 @@ async function init(title) {
           }`
         );
 
-        let eslintrcst = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcst.js'
-        );
+        let eslintrcst = path.join(__dirname, '../lib/create/eslint/.eslintrcst.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcst);
       } else {
         await exe(
@@ -381,24 +336,15 @@ async function init(title) {
                 ' add vite-plugin-eslint eslint  eslint-plugin-vue@latest eslint-config-standard@latest eslint-plugin-import eslint-plugin-n eslint-plugin-promise -D'
           }`
         );
-        let eslintrcsj = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcsj.js'
-        );
+        let eslintrcsj = path.join(__dirname, '../lib/create/eslint/.eslintrcsj.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcsj);
       }
     }
     if (message.eslint === 'ESLint + Prettier') {
-      let prettierrcJS = path.join(
-        __dirname,
-        '../lib/create/eslint/.prettierrc.js'
-      );
+      let prettierrcJS = path.join(__dirname, '../lib/create/eslint/.prettierrc.js');
       copy(`${message.title}/.prettierrc.js`, prettierrcJS);
 
-      let prettieriGnore = path.join(
-        __dirname,
-        '../lib/create/eslint/.prettierignore'
-      );
+      let prettieriGnore = path.join(__dirname, '../lib/create/eslint/.prettierignore');
       copy(`${message.title}/.prettierignore`, prettieriGnore);
 
       if (message.dependencies.indexOf('TypeScript') > -1) {
@@ -410,10 +356,7 @@ async function init(title) {
                 ' add @types/eslint vite-plugin-eslint eslint eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
           }`
         );
-        let eslintrcpt = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcpt.js'
-        );
+        let eslintrcpt = path.join(__dirname, '../lib/create/eslint/.eslintrcpt.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcpt);
       } else {
         await exe(
@@ -424,10 +367,7 @@ async function init(title) {
                 ' add vite-plugin-eslint eslint eslint-plugin-vue@latest eslint-plugin-prettier eslint-config-prettier prettier -D'
           }`
         );
-        let eslintrcpj = path.join(
-          __dirname,
-          '../lib/create/eslint/.eslintrcpj.js'
-        );
+        let eslintrcpj = path.join(__dirname, '../lib/create/eslint/.eslintrcpj.js');
         copy(`${message.title}/.eslintrc.js`, eslintrcpj);
       }
     }
@@ -470,15 +410,13 @@ async function init(title) {
 
     // 使用prettier格式化代码
     await exe(
-      `cd ${path.join(
-        __dirname,
-        '..'
-      )} && npx prettier --config .prettierrc.js --write ${path.join(
+      `cd ${path.join(__dirname, '..')} && npx prettier --config .prettierrc.js --write ${path.join(
         process.cwd(),
         message.title
-      )}/vite.config.${
-        message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'
-      } ${path.join(process.cwd(), message.title)}/src/**/*.{js,ts}`
+      )}/vite.config.${message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'} ${path.join(
+        process.cwd(),
+        message.title
+      )}/src/**/*.{js,ts}`
     );
 
     if (message.dependencies.indexOf('ESLint') > -1) {
