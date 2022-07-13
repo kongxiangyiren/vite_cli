@@ -61,7 +61,16 @@ async function init(title) {
       type: 'checkbox',
       message: '配置项目依赖',
       name: 'dependencies',
-      choices: ['TypeScript', 'Router', 'pinia', 'CSS 预处理器', 'axios', 'gzip', 'ESLint'],
+      choices: [
+        'TypeScript',
+        'Router',
+        'pinia',
+        'CSS 预处理器',
+        'axios',
+        'gzip',
+        'ESLint',
+        'electron'
+      ],
       default: ['TypeScript', 'Router', 'ESLint']
     },
     {
@@ -374,6 +383,57 @@ async function init(title) {
     viteConfigImport += "import eslint from 'vite-plugin-eslint';\n";
     viteConfigPlugin += ',\n  eslint()';
   }
+  // 安装electron
+  if (message.dependencies.indexOf('electron') > -1) {
+    await exe(
+      `cd ${message.title} && ${
+        message.tool === 'npm'
+          ? 'npm i vite-plugin-electron electron electron-builder -D'
+          : message.tool + ' add vite-plugin-electron electron electron-builder -D'
+      } `
+    );
+    viteConfigImport += "import electron from 'vite-plugin-electron'\n";
+    viteConfigPlugin += `,
+    // https://www.electron.build/configuration/configuration
+    electron({
+      main: {
+        entry: 'electron/main.${message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'}',
+      },
+      //preload: {
+       // input: {
+         // // Must be use absolute path, this is the restrict of Rollup
+         // preload: path.join(__dirname, 'electron/preload.${
+           message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'
+         }'),
+        //},
+      //},
+      // Enables use of Node.js API in the Electron-Renderer
+      renderer: {},
+    })`;
+    let electronMain =
+      message.dependencies.indexOf('TypeScript') > -1
+        ? path.join(__dirname, '../lib/create/electron/_electron.vc')
+        : path.join(__dirname, '../lib/create/electron/_electron2.vc');
+    copy(
+      `${message.title}/electron/main.${
+        message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'
+      }`,
+      electronMain
+    );
+
+    let electronBuilder = path.join(
+      __dirname,
+      '../lib/create/electron/electron-builder.config.json'
+    );
+    copy(`${message.title}/electron-builder.config.json`, electronBuilder);
+
+    if (message.dependencies.indexOf('TypeScript') > -1) {
+      let tsc = await read(message.title + '/tsconfig.json');
+      let tsco = JSON.parse(tsc);
+      tsco.include.push('electron/**/*.ts');
+      await cp(message.title + '/tsconfig.json', JSON.stringify(tsco, null, 2));
+    }
+  }
 
   // 全局修改
   if (message.dependencies != '' && message.dependencies != ['TypeScript']) {
@@ -408,21 +468,53 @@ async function init(title) {
       templatePath.viteConfig
     );
 
-    // 使用prettier格式化代码
-    await exe(
-      `cd ${path.join(__dirname, '..')} && npx prettier --config .prettierrc.js --write ${path.join(
-        process.cwd(),
-        message.title
-      )}/vite.config.${message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'} ${path.join(
-        process.cwd(),
-        message.title
-      )}/src/**/*.{js,ts}`
-    );
+    if (message.dependencies.indexOf('electron') > -1) {
+      let pack = await read(message.title + '/package.json');
+      let pac = JSON.parse(pack);
+      pac.main = 'dist/electron/main.js';
+      pac.scripts.build =
+        message.dependencies.indexOf('TypeScript') > -1
+          ? 'vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.json'
+          : 'vite build && electron-builder --config electron-builder --config electron-builder.config.json';
+      await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
+
+      await exe(
+        `cd ${path.join(
+          __dirname,
+          '..'
+        )} && npx prettier --config .prettierrc.js --write ${path.join(
+          process.cwd(),
+          message.title
+        )}/vite.config.${message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'} ${path.join(
+          process.cwd(),
+          message.title
+        )}/src/**/*.{js,ts} ${path.join(process.cwd(), message.title)}/electron/**/*.{js,ts}`
+      );
+    } else {
+      // 使用prettier格式化代码
+      await exe(
+        `cd ${path.join(
+          __dirname,
+          '..'
+        )} && npx prettier --config .prettierrc.js --write ${path.join(
+          process.cwd(),
+          message.title
+        )}/vite.config.${message.dependencies.indexOf('TypeScript') > -1 ? 'ts' : 'js'} ${path.join(
+          process.cwd(),
+          message.title
+        )}/src/**/*.{js,ts}`
+      );
+    }
 
     if (message.dependencies.indexOf('ESLint') > -1) {
       let pack = await read(message.title + '/package.json');
       let pac = JSON.parse(pack);
-      pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} --fix';
+      if (message.dependencies.indexOf('electron') > -1) {
+        pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} electron/**/*.{js,ts} --fix';
+      } else {
+        pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} --fix';
+      }
+
       await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
       await exe(
         `cd ${message.title} && ${

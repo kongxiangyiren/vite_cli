@@ -6,25 +6,7 @@
 npm i @feiyuhao/vite_cli -g
 ```
 
-## 项目设置
-
-```bash
-npm install
-```
-
-### 开发环境
-
-```bash
-node ./index.js create <app-name>
-```
-
-### 映射全局
-
-```bash
-npm run link
-```
-
-### 卸载全局
+## 卸载
 
 ```bash
 npm uni @feiyuhao/vite_cli -g
@@ -48,6 +30,22 @@ npm uni @feiyuhao/vite_cli -g
 请自行修改配置信息
 
 多服务器部署可复制deploy下文件,并修改`package.json`的scripts配置
+
+## 关于electron
+
+1、需要使用hash模式
+
+2、不能使用gzip压缩文件
+
+3、设置electron镜像
+
+```csharp
+npm config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
+或
+yarn config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
+或
+pnpm config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
+```
 
 ### package.json下scripts配置
 
@@ -73,4 +71,4 @@ npm uni @feiyuhao/vite_cli -g
 
 gitee: <https://gitee.com/fei-yuhao/vite_cli>
 
-github: [https://github.com/feiyuhao/vite_cli](https://github.com/feiyuhao/vite_cli)
+github: <https://github.com/feiyuhao/vite_cli>

@@ -1,6 +1,6 @@
 {
   "name": "@feiyuhao/vite_cli",
-  "version": "2.2.11",
+  "version": "2.2.12",
   "description": "vue3 vite 脚手架",
   "main": "index.js",
   "bin": {
