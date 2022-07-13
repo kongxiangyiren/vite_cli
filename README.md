@@ -30,6 +30,19 @@ npm uni @feiyuhao/vite_cli -g
 请自行修改配置信息
 
 多服务器部署可复制deploy下文件,并修改`package.json`的scripts配置
+### package.json下scripts配置
+
+```json
+ "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "ssh": "vite build && node ./deploy/ssh.js",
+    "ftp": "vite build && node ./deploy/ftp.js"
+  },
+```
+
+
 
 ## 关于electron
 
@@ -47,17 +60,6 @@ yarn config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
 pnpm config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
 ```
 
-### package.json下scripts配置
-
-```json
- "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "ssh": "vite build && node ./deploy/ssh.js",
-    "ftp": "vite build && node ./deploy/ftp.js"
-  },
-```
 
 ## 仓库卡片
 
