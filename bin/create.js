@@ -430,7 +430,7 @@ async function init(title) {
     let git = await read(message.title + '/.gitignore');
     git = '# electron\\ndist_electron/\\n\\n' + git;
     git = git.replace(/\\n/g, '\n');
-    await cp('./.gitignore', git);
+    await cp(message.title + '/.gitignore', git);
 
     if (message.dependencies.indexOf('TypeScript') > -1) {
       let tsc = await read(message.title + '/tsconfig.json');
