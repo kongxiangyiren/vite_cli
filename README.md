@@ -1,5 +1,11 @@
 # vue3 vite 脚手架
 
+## 说明
+
+1、这是对[**create-vite**](https://www.npmjs.com/package/create-vite) 的再一次封装，加入了vue-router、pinia、sass、less、axios、gzip、eslint、electron配置
+
+2、目前 [**create-vite**](https://www.npmjs.com/package/create-vite) 已经更新到vite3版本,如果要使用本插件请更新到 **2** 最新版本，vite3对应版本正在开发中。
+
 ## 安装
 
 ```bash
@@ -30,6 +36,7 @@ npm uni @feiyuhao/vite_cli -g
 请自行修改配置信息
 
 多服务器部署可复制deploy下文件,并修改`package.json`的scripts配置
+
 ### package.json下scripts配置
 
 ```json
@@ -41,8 +48,6 @@ npm uni @feiyuhao/vite_cli -g
     "ftp": "vite build && node ./deploy/ftp.js"
   },
 ```
-
-
 
 ## 关于electron
 
@@ -59,7 +64,6 @@ yarn config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
 或
 pnpm config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
 ```
-
 
 ## 仓库卡片
 

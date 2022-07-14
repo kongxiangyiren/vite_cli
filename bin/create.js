@@ -136,9 +136,9 @@ async function init(title) {
 
   //拉取项目模板
   await exe(
-    `npm init vite@latest ${message.title} ${
-      Number(npm.split('.')[0]) < 7 ? '' : '--'
-    } --template ${message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'}`
+    `npm init vite@2 ${message.title} ${Number(npm.split('.')[0]) < 7 ? '' : '--'} --template ${
+      message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'
+    }`
   );
 
   await exe(`cd ${message.title} && ${message.tool} install`);
@@ -472,10 +472,11 @@ async function init(title) {
       let pack = await read(message.title + '/package.json');
       let pac = JSON.parse(pack);
       pac.main = 'dist/electron/main.js';
+      pac.scripts.dev = 'chcp 65001 && vite';
       pac.scripts.build =
         message.dependencies.indexOf('TypeScript') > -1
-          ? 'vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.json'
-          : 'vite build && electron-builder --config electron-builder --config electron-builder.config.json';
+          ? 'chcp 65001 && vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.json'
+          : 'chcp 65001 && vite build && electron-builder --config electron-builder --config electron-builder.config.json';
       await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
 
       await exe(
