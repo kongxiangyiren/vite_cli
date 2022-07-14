@@ -67,11 +67,11 @@ async function init(title) {
         'pinia',
         'CSS 预处理器',
         'axios',
-        'gzip',
-        'ESLint',
-        'electron'
+        'gzip'
+        // 'ESLint',
+        // 'electron'
       ],
-      default: ['TypeScript', 'Router', 'ESLint']
+      default: ['TypeScript', 'Router']
     },
     {
       name: 'routerMode',
@@ -136,9 +136,9 @@ async function init(title) {
 
   //拉取项目模板
   await exe(
-    `npm init vite@2 ${message.title} ${Number(npm.split('.')[0]) < 7 ? '' : '--'} --template ${
-      message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'
-    }`
+    `npm init vite@latest ${message.title} ${
+      Number(npm.split('.')[0]) < 7 ? '' : '--'
+    } --template ${message.dependencies.indexOf('TypeScript') > -1 ? 'vue-ts' : 'vue'}`
   );
 
   await exe(`cd ${message.title} && ${message.tool} install`);
@@ -426,6 +426,11 @@ async function init(title) {
       '../lib/create/electron/electron-builder.config.json'
     );
     copy(`${message.title}/electron-builder.config.json`, electronBuilder);
+
+    let git = await read(message.title + '/.gitignore');
+    git = '# electron\\ndist_electron/\\n\\n' + git;
+    git = git.replace(/\\n/g, '\n');
+    await cp('./.gitignore', git);
 
     if (message.dependencies.indexOf('TypeScript') > -1) {
       let tsc = await read(message.title + '/tsconfig.json');
