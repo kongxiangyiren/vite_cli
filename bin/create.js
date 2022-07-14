@@ -423,9 +423,9 @@ async function init(title) {
 
     let electronBuilder = path.join(
       __dirname,
-      '../lib/create/electron/electron-builder.config.json'
+      '../lib/create/electron/electron-builder.config.js'
     );
-    copy(`${message.title}/electron-builder.config.json`, electronBuilder);
+    copy(`${message.title}/electron-builder.config.js`, electronBuilder);
 
     let git = await read(message.title + '/.gitignore');
     git = '# electron\\ndist_electron/\\n\\n' + git;
@@ -477,11 +477,12 @@ async function init(title) {
       let pack = await read(message.title + '/package.json');
       let pac = JSON.parse(pack);
       pac.main = 'dist/electron/main.js';
+      pac.author = 'Your Name';
       pac.scripts.dev = 'chcp 65001 && vite';
       pac.scripts.build =
         message.dependencies.indexOf('TypeScript') > -1
-          ? 'chcp 65001 && vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.json'
-          : 'chcp 65001 && vite build && electron-builder --config electron-builder --config electron-builder.config.json';
+          ? 'chcp 65001 && vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.js'
+          : 'chcp 65001 && vite build && electron-builder --config electron-builder --config electron-builder.config.js';
       await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
 
       await exe(
