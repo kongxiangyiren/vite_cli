@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { app, BrowserWindow } from 'electron';
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 export const ROOT_PATH = {
   // /dist
@@ -18,7 +19,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: join(ROOT_PATH.public, 'favicon.ico'),
+    icon: join(ROOT_PATH.public, 'favicon.ico'), //需要ico图标，否则无法显示图标
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true

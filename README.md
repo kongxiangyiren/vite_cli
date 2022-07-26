@@ -6,7 +6,7 @@
 
 ~~2、目前~~ [**~~create-vite~~**](https://www.npmjs.com/package/create-vite) ~~已经更新到vite3版本,如果要使用本插件请更新到 **2** 最新版本，vite3对应版本正在开发中。~~
 
-3、更新到vite3版本，但暂时没有适配vite3的eslint和electron，如果要使用eslint和electron请使用2版本，安装`npm i @feiyuhao/vite_cli@2 -g`
+~~3、更新到vite3版本，但暂时没有适配vite3的eslint和electron，如果要使用eslint和electron请使用2版本，安装~~`npm i @feiyuhao/vite_cli@2 -g`
 
 ## 安装
 

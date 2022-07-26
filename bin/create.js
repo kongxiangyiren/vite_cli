@@ -67,9 +67,9 @@ async function init(title) {
         'pinia',
         'CSS 预处理器',
         'axios',
-        'gzip'
-        // 'ESLint',
-        // 'electron'
+        'gzip',
+        'ESLint',
+        'electron'
       ],
       default: ['TypeScript', 'Router']
     },
@@ -271,6 +271,10 @@ async function init(title) {
 
   //   安装eslint
   if (message.dependencies.indexOf('ESLint') > -1) {
+    if (message.dependencies.indexOf('TypeScript') > -1) {
+      let eslintignore = path.join(__dirname, '../lib/create/eslint/.eslintignore');
+      copy(`${message.title}/.eslintignore`, eslintignore);
+    }
     if (message.eslint === 'ESLint with error prevention only') {
       if (message.dependencies.indexOf('TypeScript') > -1) {
         await exe(
@@ -421,11 +425,11 @@ async function init(title) {
       electronMain
     );
 
-    let electronBuilder = path.join(
-      __dirname,
-      '../lib/create/electron/electron-builder.config.js'
-    );
+    let electronBuilder = path.join(__dirname, '../lib/create/electron/electron-builder.config.js');
     copy(`${message.title}/electron-builder.config.js`, electronBuilder);
+
+    let faviconIco = path.join(__dirname, '../lib/create/electron/favicon.ico');
+    copy(`${message.title}/public/favicon.ico`, faviconIco);
 
     let git = await read(message.title + '/.gitignore');
     git = '# electron\\ndist_electron/\\n\\n' + git;
@@ -476,6 +480,10 @@ async function init(title) {
     if (message.dependencies.indexOf('electron') > -1) {
       let pack = await read(message.title + '/package.json');
       let pac = JSON.parse(pack);
+      if (pac.type && pac.type === 'module') {
+        delete pac.type;
+      }
+
       pac.main = 'dist/electron/main.js';
       pac.author = 'Your Name';
       pac.scripts.dev = 'chcp 65001 && vite';
@@ -519,6 +527,9 @@ async function init(title) {
       if (message.dependencies.indexOf('electron') > -1) {
         pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} electron/**/*.{js,ts} --fix';
       } else {
+        if (pac.type && pac.type === 'module') {
+          delete pac.type;
+        }
         pac.scripts.lint = 'eslint src/**/*.{js,jsx,vue,ts,tsx} --fix';
       }
 
