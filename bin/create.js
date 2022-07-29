@@ -490,7 +490,7 @@ async function init(title) {
       pac.scripts.build =
         message.dependencies.indexOf('TypeScript') > -1
           ? 'chcp 65001 && vue-tsc --noEmit && vite build && electron-builder --config electron-builder.config.js'
-          : 'chcp 65001 && vite build && electron-builder --config electron-builder --config electron-builder.config.js';
+          : 'chcp 65001 && vite build && electron-builder --config electron-builder.config.js';
       await cp(message.title + '/package.json', JSON.stringify(pac, null, 2));
 
       await exe(
