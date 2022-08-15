@@ -150,6 +150,8 @@ async function init(title) {
   let viteConfigPlugin = '';
   let scriptlang = message.dependencies.indexOf('TypeScript') > -1 ? ' lang="ts"' : '';
   let stylelang = '';
+  let viteUse = '';
+  let vitePlgin = '';
 
   // 安装 router
   if (message.dependencies.indexOf('Router') > -1) {
@@ -396,7 +398,10 @@ async function init(title) {
           : message.tool + ' add vite-plugin-electron electron electron-builder -D'
       } `
     );
-    viteConfigImport += "import electron from 'vite-plugin-electron'\n";
+    viteConfigImport +=
+      "import electron from 'vite-plugin-electron';\nimport { rmSync } from 'fs';\n";
+    viteUse +=
+      "rmSync('dist', { recursive: true, force: true });\nrmSync('dist_electron', { recursive: true, force: true });\n";
     viteConfigPlugin += `,
     // https://www.electron.build/configuration/configuration
     electron({
@@ -414,6 +419,7 @@ async function init(title) {
       // Enables use of Node.js API in the Electron-Renderer
       renderer: {},
     })`;
+    vitePlgin+=',\nbase:"./"'
     let electronMain =
       message.dependencies.indexOf('TypeScript') > -1
         ? path.join(__dirname, '../lib/create/electron/_electron.vc')
@@ -467,7 +473,10 @@ async function init(title) {
     // 写入vite.config.js
     templatePath.viteConfig = templatePath.viteConfig
       .replace('<!-- viteConfigImport -->', viteConfigImport)
-      .replace('<!-- viteConfigPlugin -->', viteConfigPlugin + '\n  ');
+      .replace('<!-- viteUse -->', viteUse)
+      .replace('<!-- viteConfigPlugin -->', viteConfigPlugin + '\n  ')
+      .replace("<!-- vitePlgin -->",vitePlgin);
+
     await cp(
       `${
         message.dependencies.indexOf('TypeScript') > -1
