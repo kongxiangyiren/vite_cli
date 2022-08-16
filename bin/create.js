@@ -157,7 +157,7 @@ async function init(title) {
   if (message.dependencies.indexOf('Router') > -1) {
     await exe(
       `cd ${message.title} && ${
-        message.tool === 'npm' ? 'npm install vue-router@4' : message.tool + ' add vue-router@4'
+        message.tool === 'npm' ? 'npm install vue-router@next' : message.tool + ' add vue-router@next'
       }`
     );
     // app.vue
