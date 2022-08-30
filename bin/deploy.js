@@ -31,7 +31,7 @@ async function deploy() {
   }
 
   if (message.deploy.indexOf('ftp') > -1) {
-    await exe(`${tool === 'npm' ? 'npm i' : tool + ' add'} ftp-deploy -D`);
+    await exe(`${tool === 'npm' ? 'npm i' : tool + ' add'} ftp-deploy@2.4.1 -D`);
     let ftp = path.join(__dirname, '../lib/deploy/ftp.js');
     copy('deploy/ftp.js', ftp);
   }
