@@ -79,4 +79,4 @@ pnpm config set ELECTRON_MIRROR https://npmmirror.com/mirrors/electron/
 
 gitee: <https://gitee.com/fei-yuhao/vite_cli>
 
-github: <https://github.com/feiyuhao/vite_cli>
+github: <https://github.com/kongxiangyiren/vite_cli>
