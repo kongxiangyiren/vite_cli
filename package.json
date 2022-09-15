@@ -4,7 +4,7 @@
   "description": "vue3 vite 脚手架",
   "main": "index.js",
   "bin": {
-    "vc": "./bin/vc.js"
+    "vue3": "./bin/vue3.js"
   },
   "scripts": {
     "link": "npm link",

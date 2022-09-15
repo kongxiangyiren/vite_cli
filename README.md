@@ -1,5 +1,7 @@
 # vue3 vite 脚手架
 
+因为和vercel冲突所以有了这个分支
+
 ## 说明
 
 1、这是对[**create-vite**](https://www.npmjs.com/package/create-vite) 的再一次封装，加入了vue-router、pinia、sass、less、axios、gzip、eslint、electron配置
@@ -24,16 +26,16 @@ npm uni @feiyuhao/vite_cli -g
 
 |说明|命令|
 |-|-|
-|查看版本号|vc -V|
-|查看信息|vc -h|
-|创建项目|vc create 项目名称|
-|添加自动化部署配置|vc deploy|
+|查看版本号|vue3 -V|
+|查看信息|vue3 -h|
+|创建项目|vue3 create 项目名称|
+|添加自动化部署配置|vue3 deploy|
 
 ## 关于自动化部署
 
 由于自动化部署太危险,默认不提交git,如果要提交git请自行修改 `.gitignore` 文件
 
-运行`vc deploy`会生成deploy文件夹
+运行`vue3 deploy`会生成deploy文件夹
 
 请自行修改配置信息
 
