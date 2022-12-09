@@ -394,8 +394,8 @@ async function init(title) {
     await exe(
       `cd ${message.title} && ${
         message.tool === 'npm'
-          ? 'npm i vite-plugin-electron electron electron-builder -D'
-          : message.tool + ' add vite-plugin-electron electron electron-builder -D'
+          ? 'npm i vite-plugin-electron@0.9.2 electron electron-builder -D'
+          : message.tool + ' add vite-plugin-electron0.9.2 electron electron-builder -D'
       } `
     );
     viteConfigImport +=
