@@ -1,26 +1,9 @@
 {
-  "name": "@feiyuhao/vite_cli",
-  "version": "3.0.8",
-  "description": "vue3 vite 脚手架",
-  "main": "index.js",
-  "bin": {
-    "vue3": "./bin/vue3.js"
-  },
+  "name": "vite_cli",
+  "version": "4.0.0",
+  "description": "vite vue3 脚手架",
   "scripts": {
-    "link": "npm link",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --config .prettierrc.js --write ./bin/*.js ./lib/**/*.js"
-  },
-  "author": "空巷一人",
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.26.1",
-    "chalk": "^4.1.2",
-    "child_process": "^1.0.2",
-    "commander": "^9.1.0",
-    "fs-extra": "^10.0.1",
-    "inquirer": "^8.2.2",
-    "ora": "^5.4.1"
+  "start": "ts-node ./src/index.ts"
   },
   "homepage": "https://github.com/kongxiangyiren/vite_cli#readme",
   "bugs": {
@@ -30,16 +13,14 @@
     "type": "git",
     "url": "https://github.com/kongxiangyiren/vite_cli.git"
   },
-  "devDependencies": {
-    "prettier": "^2.6.2"
-  },
-  "engines": {
-    "node": ">=14.18.0"
-  },
   "keywords": [
-    "vue",
     "vite",
-    "vue3",
-    "Vue.js"
-  ]
+    "vue3"
+  ],
+  "author": "空巷一人",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
 }
