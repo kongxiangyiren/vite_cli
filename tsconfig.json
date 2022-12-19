@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 目标语言的版本
+    "module": "CommonJS", // 生成代码的模板标准
+    "skipLibCheck": false, // 是否跳过声明文件的类型检查，这可以在编译期间以牺牲类型系统准确性为代价来节省时间，默认：false。
+    "noImplicitAny": true, // 是否禁止隐式的any类型，默认：false
+    "removeComments": true, // 是否删除注释
+    "preserveConstEnums": true, // 是否禁止删除枚举常量生成代码中的声明，默认：false。
+    "suppressImplicitAnyIndexErrors": true, // 是否抑制隐式any索引的错误，默认：false。
+    "sourceMap": false, // 是否生成 map文件
+    "esModuleInterop": true, // 允许export=导出，由import from 导入
+    "moduleResolution": "Node", // moduleResolution：指定模块解析策略，node或classic
+    "outDir": "dist", // 指定输出目录
+    "declaration": true, // 开启后会自动生成声明文件 生成 *.d.ts文件
+    "resolveJsonModule": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

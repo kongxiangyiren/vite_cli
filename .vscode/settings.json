@@ -1,0 +1,7 @@
+{
+  // 保存自动格式化
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
