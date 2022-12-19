@@ -1,7 +1,7 @@
 {
   "name": "@feiyuhao/vite_cli",
   "version": "4.0.0",
-  "description": "vite vue3 脚手架",
+  "description": "vite vue3 脚手架 自用",
   "main": "./dist/index.js",
   "bin": {
     "vc": "./dist/index.js"
@@ -24,7 +24,8 @@
   },
   "keywords": [
     "vite",
-    "vue3"
+    "vue3",
+    "vue"
   ],
   "author": "空巷一人",
   "license": "MIT",

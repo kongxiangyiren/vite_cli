@@ -197,9 +197,9 @@ async function create() {
       ? `./${projectName}/vite.config.ts`
       : `./${projectName}/vite.config.js`;
     //读取配置文件
-    let vch = readFileSync(vcPath, { encoding: 'utf-8' });
-    vch = "import viteCompression from 'vite-plugin-compression';\n" + vch;
-    vch.replace(
+    let vcg = readFileSync(vcPath, { encoding: 'utf-8' });
+    vcg = "import viteCompression from 'vite-plugin-compression';\n" + vcg;
+    vcg = vcg.replace(
       'vue()',
       `vue(),
     viteCompression({
@@ -215,6 +215,8 @@ async function create() {
       deleteOriginFile: true // 是否删除原始文件
     })`
     );
+    // 写入
+    writeFileSync(vcPath, vcg);
   }
 
   // eslint
@@ -224,13 +226,21 @@ async function create() {
         throw new Error(errout(' ' + err));
       }
     });
+    // 设置 prettier
+    cpSync(
+      join(__dirname, './assets/.prettierrc.yaml'),
+      join(process.cwd(), projectName, '.prettierrc.yaml')
+    );
   }
 
-  // 设置 prettier
-  cpSync(
-    join(__dirname, './assets/.prettierrc.yaml'),
-    join(process.cwd(), projectName, '.prettierrc.yaml')
-  );
+  // electron配置
+  if (dependencies.includes('electron')) {
+    await exe(
+      `cd ${projectName} && ${packageManagement} ${
+        packageManagement === 'npm' ? 'install' : 'add'
+      } vite-plugin-electron electron electron-builder -D`
+    );
+  }
 }
 
 create();
