@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "start": "node -r ts-node/register ./src/index.ts",
-    "build": "rimraf ./dist && tsc",
-    "prepare": "rimraf ./dist && tsc"
+    "build": "rimraf ./dist && tsc && ts-node ./build.ts",
+    "prepare": "npm run build"
   },
   "homepage": "https://github.com/kongxiangyiren/vite_cli#readme",
   "bugs": {

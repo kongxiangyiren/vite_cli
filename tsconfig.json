@@ -11,7 +11,7 @@
     "esModuleInterop": true, // 允许export=导出，由import from 导入
     "moduleResolution": "Node", // moduleResolution：指定模块解析策略，node或classic
     "outDir": "dist", // 指定输出目录
-    "declaration": true, // 开启后会自动生成声明文件 生成 *.d.ts文件
+    "declaration": false, // 开启后会自动生成声明文件 生成 *.d.ts文件
     "resolveJsonModule": true
   },
   "include": ["src"],

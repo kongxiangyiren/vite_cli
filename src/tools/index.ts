@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import { rm } from 'fs';
 import { bgRed, red } from 'kolorist';
 
@@ -14,6 +15,19 @@ const tools = {
           return reject(err);
         }
         return resolve(true);
+      });
+    });
+  },
+  // 安装命令
+  exe(command: any) {
+    return new Promise((resolve, reject) => {
+      exec(command, (err, stdout, stderr) => {
+        if (err) {
+          console.log('\n', tools.errout(` ${command} 失败`));
+          process.exit();
+        } else {
+          resolve(stdout);
+        }
       });
     });
   }
