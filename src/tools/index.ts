@@ -1,11 +1,14 @@
 import { exec } from 'child_process';
 import { rm } from 'fs';
-import { bgRed, red } from 'kolorist';
+import { bgRed, bgYellow, red, white, yellow } from 'kolorist';
 
 const tools = {
   /** 错误样式 */
   errout(str: string): string {
-    return red(bgRed(' ERROR ')) + red(str);
+    return white(bgRed(' ERROR ')) + red(str);
+  },
+  warnout(str: string): string {
+    return white(bgYellow(' WARN ')) + yellow(str);
   },
   /** 异步递归删除文件夹 */
   asyncRm(dir: string) {

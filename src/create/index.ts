@@ -3,7 +3,9 @@ import { cpSync, existsSync, readFileSync, unlink, writeFileSync } from 'fs';
 import { green, red } from 'kolorist';
 import { join } from 'path';
 import prompts from 'prompts';
-import { asyncRm, errout, exe } from '../tools';
+import { asyncRm, errout, exe, warnout } from '../tools';
+import ora from 'ora';
+const spinner = ora(green('正在生成项目\n'));
 
 async function create() {
   let projectName = program.args[1];
@@ -63,12 +65,12 @@ async function create() {
             { title: 'CSS 预处理器', value: 'CSS 预处理器' },
             { title: 'gzip', value: 'gzip' },
             { title: 'ESLint', value: 'ESLint' },
-            { title: 'electron', value: 'electron', disabled: true }
+            { title: 'electron', value: 'electron' }
           ]
         },
         {
           type: (_, { dependencies }: { dependencies: string[] }) =>
-            dependencies.includes('TypeScript') ? 'confirm' : null,
+            dependencies.includes('Router') ? 'confirm' : null,
           name: 'history',
           message: green('是否使用历史模式?')
         },
@@ -115,6 +117,8 @@ async function create() {
     console.log(cancelled.message);
     return;
   }
+
+  spinner.start();
   const { overwrite, dependencies, history, css, prettier, npmrc, packageManagement } = result;
   // console.log(projectName, result);
 
@@ -130,7 +134,7 @@ async function create() {
   // 获取npm版本
   let npm = (await exe(`npm -v`)) + '';
 
-  //拉取项目模板
+  //拉取项目模板 因为通过yarn拉取如果没有配置全局目录的话会报错，使用都使用npm拉取
   await exe(
     `npm init vue@latest ${projectName} ${Number(npm.split('.')[0]) < 7 ? '' : '--'} --default ${
       dependencies.includes('TypeScript') ? '--ts' : ''
@@ -235,12 +239,131 @@ async function create() {
 
   // electron配置
   if (dependencies.includes('electron')) {
+    // 安装
     await exe(
       `cd ${projectName} && ${packageManagement} ${
         packageManagement === 'npm' ? 'install' : 'add'
       } vite-plugin-electron electron electron-builder -D`
     );
+
+    // 修改package.json
+    let pac = require(join(process.cwd(), `./${projectName}/package.json`));
+    pac.main = 'dist-electron/main.js';
+    pac.author = 'Your Name';
+    pac.scripts['electron-build'] =
+      'chcp 65001 && electron-builder --config electron-builder.config.cjs';
+    pac.scripts.dev = 'chcp 65001 && ' + pac.scripts.dev;
+    pac.scripts.build = 'chcp 65001 && ' + pac.scripts.build;
+    pac.scripts['build-only'] =
+      'chcp 65001 && ' + pac.scripts['build-only'] + ' && npm run electron-build';
+    // 写入
+    writeFileSync(
+      join(process.cwd(), `./${projectName}/package.json`),
+      JSON.stringify(pac, null, 2)
+    );
+
+    // 修改vite.config
+    // 判断是不是ts，获取配置文件
+    let vcPath = dependencies.includes('TypeScript')
+      ? `./${projectName}/vite.config.ts`
+      : `./${projectName}/vite.config.js`;
+    //读取配置文件
+    let vcg = readFileSync(vcPath, { encoding: 'utf-8' });
+    vcg = "import electron from 'vite-plugin-electron';\n" + vcg;
+    vcg = vcg.replace(
+      'vue()',
+      `vue(),
+      // 默认最新vite-plugin-electron, 如果插件报错, 具体请看 https://github.com/electron-vite/vite-plugin-electron
+      electron({
+        entry: 'electron/main.ts',
+        onstart: options => {
+          // Start Electron App
+          options.startup(['.', '--no-sandbox'])
+        },
+        // vite: {
+        //   build: {
+        //     rollupOptions: {
+        //       // Here are some C/C++ plugins that can't be built properly.
+        //       external: [
+        //         'serialport',
+        //         'sqlite3',
+        //       ],
+        //     },
+        //   },
+        // }
+      })`
+    );
+    // 写入
+    writeFileSync(vcPath, vcg);
+
+    // 创建electron文件夹
+    if (dependencies.includes('TypeScript')) {
+      cpSync(join(__dirname, './assets/electron/main.tvc'), `./${projectName}/electron/main.ts`, {
+        recursive: true
+      });
+      // 修改 tsconfig.json
+      let tsc = require(join(process.cwd(), `./${projectName}/tsconfig.json`));
+      tsc.compilerOptions.types = ['vite-plugin-electron/electron-env'];
+      writeFileSync(
+        join(process.cwd(), `./${projectName}/tsconfig.json`),
+        JSON.stringify(tsc, null, 2)
+      );
+    } else {
+      cpSync(join(__dirname, './assets/electron/main.jvc'), `./${projectName}/electron/main.js`, {
+        recursive: true
+      });
+    }
+
+    // 创建electron配置
+    cpSync(
+      join(__dirname, './assets/electron/electron-builder.config.cjs'),
+      `./${projectName}/electron-builder.config.cjs`,
+      { recursive: true }
+    );
+
+    // 修改 .gitignore
+    let ign = readFileSync(`./${projectName}/.gitignore`, { encoding: 'utf-8' });
+    ign = '#electron\ndist_electron\ndist-electron\n\n' + ign;
+    writeFileSync(`./${projectName}/.gitignore`, ign);
   }
+
+  // 格式化
+  if (dependencies.includes('ESLint')) {
+    await exe(
+      `cd ${projectName} && ${packageManagement} ${packageManagement === 'yarn' ? '' : 'run'} lint`
+    );
+  } else {
+    await exe(
+      ` npx prettier --config ${join(__dirname, './assets/.prettierrc.yaml')} --write ${join(
+        process.cwd(),
+        projectName
+      )}/vite.config.${dependencies.includes('TypeScript') ? 'ts' : 'js'} ${join(
+        process.cwd(),
+        projectName
+      )}/src/**/*.{js,ts} ${
+        dependencies.includes('electron')
+          ? join(process.cwd(), projectName) + '/electron/**/*.{ts,js}'
+          : ''
+      }`
+    );
+  }
+  // 完成
+  spinner.stop();
+  console.log('项目初始化成功');
+  if (dependencies.includes('electron')) {
+    if (dependencies.includes('gzip')) {
+      console.log(warnout(' electron 不能使用gzip'));
+    }
+    if (history) {
+      console.log(warnout(' electron打包后不能使用历史模式'));
+    }
+  }
+  console.log(
+    `
+        cd ${projectName}
+        ${packageManagement === 'yarn' ? 'yarn' : packageManagement + ' run'} dev
+        `
+  );
 }
 
 create();
