@@ -275,7 +275,7 @@ async function create() {
       `vue(),
       // 默认最新vite-plugin-electron, 如果插件报错, 具体请看 https://github.com/electron-vite/vite-plugin-electron
       electron({
-        entry: 'electron/main.ts',
+        entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
         onstart: options => {
           // Start Electron App
           options.startup(['.', '--no-sandbox'])
