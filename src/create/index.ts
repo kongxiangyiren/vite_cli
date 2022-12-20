@@ -316,7 +316,7 @@ async function create() {
 
     // 创建electron配置
     cpSync(
-      join(__dirname, './assets/electron/electron-builder.config.cjs'),
+      join(__dirname, './assets/electron/electron-builder.config.jvc'),
       `./${projectName}/electron-builder.config.cjs`,
       { recursive: true }
     );
