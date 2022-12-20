@@ -14,20 +14,20 @@ npm install @feiyuhao/vite_cli --global
 
 ### 创建项目
 
-```csharp
-vc create
+```sh
+vue3 create
 ```
 
 ### 创建自动化
 
-```csharp
-vc deploy
+```sh
+vue3 deploy
 ```
 
 ### 查看版本
 
-```csharp
-vc -v
+```sh
+vue3 -v
 ```
 
 ![](create.gif)
