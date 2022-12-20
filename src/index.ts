@@ -11,4 +11,9 @@ program
   .description('创建项目')
   .action(() => require('./create/index'));
 
+program
+  .command('deploy')
+  .description('创建自动化部署文件')
+  .action(() => require('./deploy/index'));
+
 program.parse(process.argv);

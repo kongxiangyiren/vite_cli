@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
-import { rm } from 'fs';
+import { existsSync, rm } from 'fs';
 import { bgRed, bgYellow, red, white, yellow } from 'kolorist';
+import axios from 'axios';
 
 const tools = {
   /** 错误样式 */
@@ -33,6 +34,36 @@ const tools = {
         }
       });
     });
+  },
+  /** 判断包项目使用的包管理工具 */
+  tools() {
+    return new Promise((resolve, reject) => {
+      if (existsSync('./package-lock.json')) {
+        resolve('npm');
+      } else if (existsSync('./yarn.lock')) {
+        resolve('yarn');
+      } else if (existsSync('./pnpm-lock.yaml')) {
+        resolve('pnpm');
+      } else {
+        resolve('npm');
+      }
+    });
+  },
+  /**  判断是不是最新版本*/
+  async getVersion() {
+    const { version } = require('../../package.json');
+    const { data: res } = await axios
+      .get('https://registry.npmmirror.com/@feiyuhao/vite_cli')
+      .catch(err => {
+        process.exit();
+      });
+    if (version !== res['dist-tags'].latest) {
+      return console.log(
+        yellow(
+          `最新版本:${res['dist-tags'].latest},当前版本:${version},请运行 npm i @feiyuhao/vite_cli --global 更新`
+        )
+      );
+    }
   }
 };
 

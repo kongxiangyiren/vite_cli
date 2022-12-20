@@ -3,7 +3,7 @@ import { cpSync, existsSync, readFileSync, unlink, writeFileSync } from 'fs';
 import { green, red } from 'kolorist';
 import { join } from 'path';
 import prompts from 'prompts';
-import { asyncRm, errout, exe, warnout } from '../tools';
+import { asyncRm, errout, exe, getVersion, warnout } from '../tools';
 import ora from 'ora';
 const spinner = ora(green('正在生成项目\n'));
 
@@ -364,6 +364,8 @@ async function create() {
         ${packageManagement === 'yarn' ? 'yarn' : packageManagement + ' run'} dev
         `
   );
+
+  getVersion();
 }
 
 create();
