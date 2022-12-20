@@ -16,6 +16,9 @@
     "prepare": "npm run build",
     "prettier": "prettier --config .prettierrc.yaml --write ./src/**/*.ts"
   },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  },
   "homepage": "https://github.com/kongxiangyiren/vite_cli#readme",
   "bugs": {
     "url": "https://github.com/kongxiangyiren/vite_cli/issues"
