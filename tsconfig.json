@@ -14,6 +14,6 @@
     "declaration": false, // 开启后会自动生成声明文件 生成 *.d.ts文件
     "resolveJsonModule": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
