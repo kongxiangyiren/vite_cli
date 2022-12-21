@@ -4,7 +4,7 @@
   "description": "vite vue3 脚手架 自用",
   "main": "./dist/index.js",
   "bin": {
-    "vue3": "./dist/index.js"
+    "vc": "./dist/index.js"
   },
   "files": [
     "dist",
