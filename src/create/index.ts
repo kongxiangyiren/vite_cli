@@ -253,9 +253,15 @@ async function create() {
     pac.scripts['electron-build'] =
       'chcp 65001 && electron-builder --config electron-builder.config.cjs';
     pac.scripts.dev = 'chcp 65001 && ' + pac.scripts.dev;
-    pac.scripts.build = 'chcp 65001 && ' + pac.scripts.build;
-    pac.scripts['build-only'] =
-      'chcp 65001 && ' + pac.scripts['build-only'] + ' && npm run electron-build';
+
+    if (dependencies.includes('TypeScript')) {
+      pac.scripts.build = 'chcp 65001 && ' + pac.scripts.build;
+      pac.scripts['build-only'] =
+        'chcp 65001 && ' + pac.scripts['build-only'] + ' && npm run electron-build';
+    } else {
+      pac.scripts.build = 'chcp 65001 && ' + pac.scripts.build + ' && npm run electron-build';
+    }
+
     // 写入
     writeFileSync(
       join(process.cwd(), `./${projectName}/package.json`),
