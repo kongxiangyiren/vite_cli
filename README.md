@@ -55,10 +55,9 @@ vc -v
 
 ## UnInstall
 
-````sh
+```sh
 npm uninstall @feiyuhao/vite_cli --global
-```vue3 create
-````
+```
 
 ## Author
 
