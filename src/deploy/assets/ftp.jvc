@@ -3,7 +3,7 @@
 // @icetee/ftp 有错误 需要提高版本
 // 有人提交了pr 但是没有合并
 // 所以 使用 https://github.com/taylorgibb/promise-ftp.git
-// https://github.91chi.fun/ github加速
+// https://ghproxy.com/ github加速
 
 // ftp 自动上传
 const FtpDeploy = require('ftp-deploy');

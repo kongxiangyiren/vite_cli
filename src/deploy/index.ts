@@ -1,10 +1,9 @@
+import { execSync } from 'child_process';
 import { cpSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { green, red, white, yellow } from 'kolorist';
-import ora from 'ora';
 import { join } from 'path';
 import prompts from 'prompts';
-import { exe, getVersion, tools, warnout } from '../tools';
-const spinner = ora(green('正在安装配置'));
+import { getVersion, tools, warnout } from '../tools';
 
 async function deploy() {
   if (!existsSync(join(process.cwd(), `./package.json`))) {
@@ -58,24 +57,29 @@ async function deploy() {
 
   const { depl } = result;
 
-  spinner.start();
-
   const tool = await tools();
 
   // 添加ssh文件
   if (depl === 'ssh') {
-    await exe(`${tool} ${tool === 'npm' ? 'install' : ' add'} scp2 -D`);
+    execSync(`${tool} ${tool === 'npm' ? 'install' : ' add'} scp2 -D`, {
+      stdio: 'inherit'
+    });
+
     let ssh = join(__dirname, './assets/ssh.jvc');
     cpSync(ssh, 'deploy/ssh.cjs', { recursive: true });
   }
 
   // 添加ftp文件
   if (depl === 'ftp') {
-    await exe(
+    execSync(
       `${tool} ${
         tool === 'npm' ? 'install' : ' add'
-      } ftp-deploy git+https://github.91chi.fun/https://github.com/taylorgibb/promise-ftp.git -D`
+      } ftp-deploy git+https://ghproxy.com/https://github.com/taylorgibb/promise-ftp.git -D`,
+      {
+        stdio: 'inherit'
+      }
     );
+
     let ftp = join(__dirname, './assets/ftp.jvc');
     cpSync(ftp, 'deploy/ftp.cjs', { recursive: true });
   }
@@ -103,7 +107,6 @@ async function deploy() {
     git = git.replace(/\\n/g, '\n');
     writeFileSync(join(process.cwd(), './.gitignore'), git);
   }
-  spinner.stop();
 
   console.log(white('配置成功,请自行修改配置文件'));
   console.log(yellow('默认修改 .gitignore 不上传deploy文件夹,如需修改请警慎,避免造成账号密码泄露'));

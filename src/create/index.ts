@@ -4,8 +4,7 @@ import { green, red } from 'kolorist';
 import { join } from 'path';
 import prompts from 'prompts';
 import { asyncRm, errout, exe, getVersion, warnout } from '../tools';
-import ora from 'ora';
-const spinner = ora(green('正在生成项目\n'));
+import { execSync } from 'child_process';
 
 async function create() {
   let projectName = program.args[1];
@@ -118,7 +117,6 @@ async function create() {
     return;
   }
 
-  spinner.start();
   const { overwrite, dependencies, history, css, prettier, npmrc, packageManagement } = result;
   // console.log(projectName, result);
 
@@ -156,7 +154,9 @@ async function create() {
     });
   }
   // install
-  await exe(`cd ${projectName} && ${packageManagement} install`);
+  execSync(`cd ${projectName} && ${packageManagement} install`, {
+    stdio: 'inherit'
+  });
 
   // 默认历史模式，修改路由
   if (dependencies.includes('Router') && !history) {
@@ -175,27 +175,37 @@ async function create() {
   // 安装 CSS 预处理器
   if (dependencies.includes('CSS 预处理器')) {
     if (css === 'sass') {
-      await exe(
+      execSync(
         `cd ${projectName} && ${packageManagement} ${
           packageManagement === 'npm' ? 'install' : 'add'
-        } sass -D`
+        } sass -D`,
+        {
+          stdio: 'inherit'
+        }
       );
     } else if (css === 'less') {
-      await exe(
+      execSync(
         `cd ${projectName} && ${packageManagement} ${
           packageManagement === 'npm' ? 'install' : 'add'
-        } less less-loader -D`
+        } less less-loader -D`,
+        {
+          stdio: 'inherit'
+        }
       );
     }
   }
 
   // 安装gzip
   if (dependencies.includes('gzip')) {
-    await exe(
+    execSync(
       `cd ${projectName} && ${packageManagement} ${
         packageManagement === 'npm' ? 'install' : 'add'
-      } vite-plugin-compression -D`
+      } vite-plugin-compression -D`,
+      {
+        stdio: 'inherit'
+      }
     );
+
     // 判断是不是ts，获取配置文件
     let vcPath = dependencies.includes('TypeScript')
       ? `./${projectName}/vite.config.ts`
@@ -240,10 +250,13 @@ async function create() {
   // electron配置
   if (dependencies.includes('electron')) {
     // 安装
-    await exe(
+    execSync(
       `cd ${projectName} && ${packageManagement} ${
         packageManagement === 'npm' ? 'install' : 'add'
-      } vite-plugin-electron electron electron-builder -D`
+      } vite-plugin-electron electron electron-builder -D`,
+      {
+        stdio: 'inherit'
+      }
     );
 
     // 修改package.json
@@ -354,7 +367,6 @@ async function create() {
     );
   }
   // 完成
-  spinner.stop();
   console.log('项目初始化成功');
   if (dependencies.includes('electron')) {
     if (dependencies.includes('gzip')) {
