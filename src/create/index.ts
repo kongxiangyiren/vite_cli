@@ -233,19 +233,19 @@ async function create() {
     writeFileSync(vcPath, vcg);
   }
 
-  // eslint
-  if (dependencies.includes('ESLint') && prettier) {
-    unlink(`./${projectName}/.prettierrc.json`, err => {
-      if (err) {
-        throw new Error(errout(' ' + err));
-      }
-    });
-    // 设置 prettier
-    cpSync(
-      join(__dirname, './assets/.prettierrc.yaml'),
-      join(process.cwd(), projectName, '.prettierrc.yaml')
-    );
-  }
+  // // eslint
+  // if (dependencies.includes('ESLint') && prettier) {
+  //   unlink(`./${projectName}/.prettierrc.json`, err => {
+  //     if (err) {
+  //       throw new Error(errout(' ' + err));
+  //     }
+  //   });
+  //   // 设置 prettier
+  //   cpSync(
+  //     join(__dirname, './assets/.prettierrc.yaml'),
+  //     join(process.cwd(), projectName, '.prettierrc.yaml')
+  //   );
+  // }
 
   // electron配置
   if (dependencies.includes('electron')) {
