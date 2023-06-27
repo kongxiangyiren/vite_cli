@@ -149,7 +149,7 @@ async function create() {
 
   // 为项目设置镜像
   if (npmrc) {
-    cpSync(join(__dirname, './assets/.npmrc'), join(process.cwd(), projectName, '.npmrc'), {
+    cpSync(join(__dirname, './assets/npmrc'), join(process.cwd(), projectName, '.npmrc'), {
       recursive: true
     });
   }

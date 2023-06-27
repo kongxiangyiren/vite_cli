@@ -1,6 +1,6 @@
 {
   "name": "@feiyuhao/vite_cli",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "vite vue3 脚手架 自用",
   "main": "./dist/index.js",
   "bin": {
