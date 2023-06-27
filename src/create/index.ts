@@ -320,13 +320,6 @@ async function create() {
       cpSync(join(__dirname, './assets/electron/main.tvc'), `./${projectName}/electron/main.ts`, {
         recursive: true
       });
-      // 修改 tsconfig.json
-      let tsc = require(join(process.cwd(), `./${projectName}/tsconfig.json`));
-      tsc.compilerOptions.types = ['vite-plugin-electron/electron-env'];
-      writeFileSync(
-        join(process.cwd(), `./${projectName}/tsconfig.json`),
-        JSON.stringify(tsc, null, 2)
-      );
     } else {
       cpSync(join(__dirname, './assets/electron/main.jvc'), `./${projectName}/electron/main.js`, {
         recursive: true
