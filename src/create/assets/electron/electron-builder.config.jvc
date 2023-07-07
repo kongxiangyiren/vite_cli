@@ -41,7 +41,8 @@ module.exports = {
     // uninstallerSidebar: './public/sidebar.bmp', // 安装包卸载侧边图片，要求164 × 314 像素
     createDesktopShortcut: true, // 是否创建桌面图标
     createStartMenuShortcut: true, // 是否创建开始菜单图标
-    shortcutName: '${productName}' // 图标名称
+    shortcutName: '${productName}', // 图标名称
+    language: '2052' //设置安装包 属性 详细信息 语言 为 中文简体
     // license: './LICENSE.txt' // 许可证 需要gb2312格式
   }
   // extraResources: [ // 额外的资源文件

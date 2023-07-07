@@ -58,3 +58,6 @@ if (!app.isPackaged) {
     });
   }
 }
+
+// 修改 Notification 时名称
+app.setAppUserModelId('YourAppName');
