@@ -1,5 +1,8 @@
 /* eslint-env node */
 // https://www.electron.build/configuration/configuration
+/**
+ * @type {import('electron-builder').Configuration}
+ */
 module.exports = {
   appId: 'YourAppID', // 你的应用程序ID
   productName: 'YourAppName', // 你的应用程序名称
