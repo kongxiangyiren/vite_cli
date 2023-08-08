@@ -293,24 +293,32 @@ async function create() {
       'vue()',
       `vue(),
       // 默认最新vite-plugin-electron, 如果插件报错, 具体请看 https://github.com/electron-vite/vite-plugin-electron
-      electron({
-        entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
-        onstart: options => {
-          // Start Electron App
-          options.startup(['.', '--no-sandbox'])
+      electron([
+        {
+          // Main-Process entry file of the Electron App.
+          entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
+          onstart: (options) => {
+            // Start Electron App
+            options.startup(['.', '--no-sandbox'])
+          },
+          // vite: {
+          //   build: {
+          //     rollupOptions: {
+          //       // Here are some C/C++ plugins that can't be built properly.
+          //       external: ['serialport', 'sqlite3']
+          //     }
+          //   }
+          // }
         },
-        // vite: {
-        //   build: {
-        //     rollupOptions: {
-        //       // Here are some C/C++ plugins that can't be built properly.
-        //       external: [
-        //         'serialport',
-        //         'sqlite3',
-        //       ],
-        //     },
-        //   },
+        // {
+        //   entry: 'electron/preload.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
+        //   onstart(options) {
+        //     // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
+        //     // instead of restarting the entire Electron App.
+        //     options.reload()
+        //   }
         // }
-      })`
+      ])`
     );
     // 写入
     writeFileSync(vcPath, vcg);
