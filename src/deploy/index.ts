@@ -71,14 +71,9 @@ async function deploy() {
 
   // 添加ftp文件
   if (depl === 'ftp') {
-    execSync(
-      `${tool} ${
-        tool === 'npm' ? 'install' : ' add'
-      } ftp-deploy git+https://ghproxy.com/https://github.com/taylorgibb/promise-ftp.git -D`,
-      {
-        stdio: 'inherit'
-      }
-    );
+    execSync(`${tool} ${tool === 'npm' ? 'install' : ' add'} ftp-deploy -D`, {
+      stdio: 'inherit'
+    });
 
     let ftp = join(__dirname, './assets/ftp.jvc');
     cpSync(ftp, 'deploy/ftp.cjs', { recursive: true });

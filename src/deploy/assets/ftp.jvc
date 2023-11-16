@@ -1,10 +1,3 @@
-// 说明：ftp-deploy 依赖于 promise-ftp ，
-// promise-ftp 使用了 一个 @icetee/ftp 的包，
-// @icetee/ftp 有错误 需要提高版本
-// 有人提交了pr 但是没有合并
-// 所以 使用 https://github.com/taylorgibb/promise-ftp.git
-// https://ghproxy.com/ github加速
-
 // ftp 自动上传
 const FtpDeploy = require('ftp-deploy');
 const ftpServ = new FtpDeploy();
@@ -20,7 +13,7 @@ let config = {
   include: ['*', '**/*'], // 包含文件
   // exclude: ['dist/**/*.map'], // 排除文件
   gc: true, //上传前是否删除静态资源文件夹下内容(assets配置)
-  forcePasv: true, // 主动模式/被动模式
+  forcePasv: false, // 主动模式/被动模式
   sftp: false // sftp
 };
 

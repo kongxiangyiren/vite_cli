@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import { cpSync, existsSync, readFileSync, unlink, writeFileSync } from 'fs';
+import { cpSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { green, red } from 'kolorist';
 import { join } from 'path';
 import prompts from 'prompts';
@@ -142,8 +142,8 @@ async function create() {
       dependencies.includes('ESLint') && prettier
         ? '--eslint-with-prettier'
         : dependencies.includes('ESLint') && !prettier
-        ? '--eslint'
-        : ''
+          ? '--eslint'
+          : ''
     } `
   );
 

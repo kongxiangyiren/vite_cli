@@ -3,7 +3,7 @@
   <a href="https://www.npmjs.com/package/@feiyuhao/vite_cli" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/@feiyuhao/vite_cli.svg">
   </a>
-  <img src="https://img.shields.io/badge/node-%5E14.18.0%20%7C%7C%20%3E%3D16.0.0-blue.svg" />
+  <img src="https://img.shields.io/badge/node-%3E%3D16.20.0-blue.svg" />
   <a href="https://github.com/kongxiangyiren/vite_cli#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
