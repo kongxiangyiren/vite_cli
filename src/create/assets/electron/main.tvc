@@ -10,7 +10,7 @@ export const ROOT_PATH = {
 };
 
 let win: BrowserWindow | null;
-// const preload = join(__dirname, './preload.js')
+// const preload = join(__dirname, './preload.cjs')
 function createWindow() {
   win = new BrowserWindow({
     width: 800,

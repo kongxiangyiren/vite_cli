@@ -3,7 +3,7 @@
   <a href="https://www.npmjs.com/package/@feiyuhao/vite_cli" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/@feiyuhao/vite_cli.svg">
   </a>
-  <img src="https://img.shields.io/badge/node-%3E%3D16.20.0-blue.svg" />
+  <img src="https://img.shields.io/badge/node-%5E18.0.0%20%7C%7C%20%3E%3D20.0.0-blue.svg" />
   <a href="https://github.com/kongxiangyiren/vite_cli#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
@@ -23,9 +23,23 @@
 
 ## Prerequisites
 
-- node ^14.18.0 || >=16.0.0
+- node ^18.0.0 || >=20.0.0
 
-## Install
+## 直接使用
+
+### 创建项目
+
+```sh
+npx @feiyuhao/vite_cli@latest create
+```
+
+### 创建自动化
+
+```sh
+npx @feiyuhao/vite_cli@latest deploy
+```
+
+## 脚手架安装使用
 
 ```sh
 npm install @feiyuhao/vite_cli --global

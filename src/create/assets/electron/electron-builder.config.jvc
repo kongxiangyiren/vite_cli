@@ -15,10 +15,12 @@ module.exports = {
   },
   files: ['dist', 'dist-electron'], // 需要打包的文件
   mac: {
+    artifactName: '${productName}-setup-${arch}-${version}.${ext}', // 包名
     icon: '', // mac图标，需要.icns格式或者png格式, 512*512
     target: ['dmg'] // 包类型
   },
   win: {
+    artifactName: '${productName}-setup-${arch}-${version}.${ext}', // 包名
     icon: '', // 图标 需要256x256的图标
     target: [
       {
@@ -29,7 +31,6 @@ module.exports = {
   },
   nsis: {
     //https://www.electron.build/configuration/nsis
-    artifactName: '${productName}-setup-${arch}-${version}.${ext}', // 包名
     oneClick: false, // 是否一键安装
     perMachine: false, // 是否单机安装
     allowToChangeInstallationDirectory: true, // 是否允许用户更改安装目录
@@ -45,7 +46,11 @@ module.exports = {
     createDesktopShortcut: true, // 是否创建桌面图标
     createStartMenuShortcut: true, // 是否创建开始菜单图标
     shortcutName: '${productName}', // 图标名称
-    language: '2052' //设置安装包 属性 详细信息 语言 为 中文简体
+    // displayLanguageSelector: true, //是否允许选择安装包语言
+    // installerLanguages: ['zh_CN', 'en_US'], //安装包语言
+    installerLanguages: ['zh_CN'], //安装包语言只要中文
+    // https://learn.microsoft.com/zh-cn/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c?redirectedfrom=MSDN
+    language: 0x0804 //设置安装包 属性 详细信息 语言 为 中文简体
     // license: './LICENSE.txt' // 许可证 需要gb2312格式
   }
   // extraResources: [ // 额外的资源文件

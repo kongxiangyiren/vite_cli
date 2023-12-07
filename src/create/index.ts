@@ -253,7 +253,7 @@ async function create() {
     execSync(
       `cd ${projectName} && ${packageManagement} ${
         packageManagement === 'npm' ? 'install' : 'add'
-      } vite-plugin-electron electron electron-builder -D`,
+      } vite-plugin-electron electron electron-builder tree-kill -D`,
       {
         stdio: 'inherit'
       }
@@ -261,7 +261,7 @@ async function create() {
 
     // 修改package.json
     let pac = require(join(process.cwd(), `./${projectName}/package.json`));
-    pac.main = 'dist-electron/main.js';
+    pac.main = 'dist-electron/main.cjs';
     pac.author = 'Your Name';
     pac.scripts['electron-build'] =
       'chcp 65001 && electron-builder --config electron-builder.config.cjs';
@@ -297,27 +297,41 @@ async function create() {
         {
           // Main-Process entry file of the Electron App.
           entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
-          onstart: (options) => {
+          onstart: options => {
             // Start Electron App
-            options.startup(['.', '--no-sandbox'])
+            options.startup(['.', '--no-sandbox']);
           },
-          // vite: {
-          //   build: {
-          //     rollupOptions: {
-          //       // Here are some C/C++ plugins that can't be built properly.
-          //       external: ['serialport', 'sqlite3']
+          vite: {
+            build: {
+              minify:'esbuild',
+              lib: {
+                entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
+                fileName: 'main',
+              },
+              // rollupOptions: {
+              //   // Here are some C/C++ plugins that can't be built properly.
+              //   external: ['serialport', 'sqlite3']
+              // }
+            }
+          }
+        },
+        // {
+          //   entry: 'electron/preload.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
+          //   onstart(options) {
+          //     // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
+          //     // instead of restarting the entire Electron App.
+          //     options.reload();
+          //   },
+          //   vite: {
+          //     build: {
+          //       minify:'esbuild',
+          //       lib: {
+          //         entry: 'electron/preload.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
+          //         fileName: 'preload'
+          //       }
           //     }
           //   }
           // }
-        },
-        // {
-        //   entry: 'electron/preload.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
-        //   onstart(options) {
-        //     // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
-        //     // instead of restarting the entire Electron App.
-        //     options.reload()
-        //   }
-        // }
       ])`
     );
     // 写入
