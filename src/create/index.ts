@@ -253,7 +253,7 @@ async function create() {
     execSync(
       `cd ${projectName} && ${packageManagement} ${
         packageManagement === 'npm' ? 'install' : 'add'
-      } vite-plugin-electron electron electron-builder tree-kill -D`,
+      } vite-plugin-electron vite-plugin-electron-renderer electron electron-builder tree-kill -D`,
       {
         stdio: 'inherit'
       }
@@ -288,7 +288,9 @@ async function create() {
       : `./${projectName}/vite.config.js`;
     //读取配置文件
     let vcg = readFileSync(vcPath, { encoding: 'utf-8' });
-    vcg = "import electron from 'vite-plugin-electron';\n" + vcg;
+    vcg =
+      "import electron from 'vite-plugin-electron';\nimport renderer from 'vite-plugin-electron-renderer';\n" +
+      vcg;
     vcg = vcg.replace(
       'vue()',
       `vue(),
@@ -332,10 +334,24 @@ async function create() {
           //     }
           //   }
           // }
-      ])`
+      ]),
+      renderer()`
     );
     // 写入
     writeFileSync(vcPath, vcg);
+
+    // 修改tsconfig.app.json
+    if (dependencies.includes('TypeScript') && existsSync(`./${projectName}/tsconfig.app.json`)) {
+      let tsconfigApp = readFileSync(`./${projectName}/tsconfig.app.json`, { encoding: 'utf-8' });
+      const tsconfigAppJson = JSON.parse(tsconfigApp);
+      if (!tsconfigAppJson.compilerOptions.types) tsconfigAppJson.compilerOptions.types = [];
+      if (!tsconfigAppJson.compilerOptions.types.includes('node')) {
+        tsconfigAppJson.compilerOptions.types.push('node');
+      }
+
+      // 写入
+      writeFileSync(`./${projectName}/tsconfig.app.json`, JSON.stringify(tsconfigAppJson, null, 2));
+    }
 
     // 创建electron文件夹
     if (dependencies.includes('TypeScript')) {
