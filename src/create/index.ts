@@ -308,7 +308,8 @@ async function create() {
               minify:'esbuild',
               lib: {
                 entry: 'electron/main.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
-                fileName: 'main',
+                fileName: () => 'main.cjs',
+                formats: ['cjs']
               },
               // rollupOptions: {
               //   // Here are some C/C++ plugins that can't be built properly.
@@ -329,7 +330,8 @@ async function create() {
           //       minify:'esbuild',
           //       lib: {
           //         entry: 'electron/preload.${dependencies.includes('TypeScript') ? 'ts' : 'js'}',
-          //         fileName: 'preload'
+          //         fileName: () => 'preload.cjs',
+          //         formats: ['cjs']
           //       }
           //     }
           //   }
