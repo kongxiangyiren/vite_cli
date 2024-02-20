@@ -291,9 +291,14 @@ async function create() {
     vcg =
       "import electron from 'vite-plugin-electron';\nimport renderer from 'vite-plugin-electron-renderer';\n" +
       vcg;
-    vcg = vcg.replace(
-      'vue()',
-      `vue(),
+    vcg = vcg
+      .replace(
+        '// https://vitejs.dev/config/',
+        "import { rmSync } from 'fs';\nrmSync('./dist-electron', { recursive: true, force: true });\n\n// https://vitejs.dev/config/"
+      )
+      .replace(
+        'vue()',
+        `vue(),
       // 默认最新vite-plugin-electron, 如果插件报错, 具体请看 https://github.com/electron-vite/vite-plugin-electron
       electron([
         {
@@ -338,7 +343,7 @@ async function create() {
           // }
       ]),
       renderer()`
-    );
+      );
     // 写入
     writeFileSync(vcPath, vcg);
 

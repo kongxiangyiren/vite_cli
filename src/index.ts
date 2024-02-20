@@ -4,7 +4,7 @@ import { program } from 'commander';
 program
   .helpOption('-h, --help', '查看帮助')
   .version(require('../package.json').version, '-v, --version', '查看版本')
-  .addHelpCommand(false);
+  .helpCommand(false);
 
 program
   .command('create')
